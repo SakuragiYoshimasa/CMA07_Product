@@ -45,7 +45,9 @@ void ofApp::draw() {
     ofPushStyle();
     ofPushMatrix();
     ofTranslate(tracker.getPosition());
+    ofScale(-1,-1);
     ofMultMatrix(tracker.getRotationMatrix());
+
 
     ofDrawRectangle(10,10, 100 , 100);
     
