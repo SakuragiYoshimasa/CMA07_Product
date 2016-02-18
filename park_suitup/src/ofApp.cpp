@@ -44,12 +44,10 @@ void ofApp::draw() {
     
     ofPushStyle();
     ofPushMatrix();
-    ofMatrix4x4 rotate =  tracker.getRotationMatrix();
-    ofRotate(rotate(0,0)*180/PI, rotate(1,0)*180/PI, rotate(2,0)*180/PI, rotate(3,0)*180/PI);
-//    ofRotateX(rotate(1,0));
-//    ofRotateY(rotate(1,1));
-//    ofRotateZ(rotate(1,2));
-    ofDrawRectangle(tracker.getPosition() + 20, 100 , 100);
+    ofTranslate(tracker.getPosition());
+    ofMultMatrix(tracker.getRotationMatrix());
+
+    ofDrawRectangle(10,10, 100 , 100);
     
     ofPopMatrix();
     ofPopStyle();
