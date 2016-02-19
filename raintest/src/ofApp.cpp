@@ -7,7 +7,7 @@ void ofApp::setup(){
     ofBackground(0,0,0);
     ofEnableAlphaBlending();
     ofSetFrameRate(30);
-    ofSetLineWidth(0.5);
+    ofSetLineWidth(ofRandom(1.0,3.0));
     mouseX = ofGetWidth()/2;
     mouseY = ofGetHeight()/2;
     
@@ -15,7 +15,7 @@ void ofApp::setup(){
         rainX[i] = ofRandom(5.0,ofGetWidth()-5.0);
         rainY1[i] = ofRandom(-ofGetWidth(),-100.0);
         rainY2[i] = rainY1[i] + ofRandom(10.0, 100.0);
-        speed_y[i] = 10;//= ofRandom(10.0, 30.0);
+        speed_y[i] =  ofRandom(10.0, 30.0);
         
     }
     
@@ -24,7 +24,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    
+    ofSetLineWidth(ofRandom(1.0,3.0));
     
     for (int i = 0; i<NUM; i++) {
         
@@ -40,9 +40,12 @@ void ofApp::update(){
             rainY2[i] = rainY1[i] + ofRandom(10.0, 100.0);
         }
         
-        if (rainX[i] > ofGetWidth()/2 && rainX[i] < ofGetWidth()/2 +300) {
-            if ((rainY2[i] = rainX[i] * mouseY / mouseX)){
-                
+        
+        if (rainX[i] > ofGetWidth()/2 && rainX[i] < ofGetWidth()/2 + triangleX) {
+            if ((rainY2[i] < (ofMap(rainX[i], ofGetWidth()/2, triangleX+ofGetWidth()/2, ofGetHeight()/2, mouseY))+20)
+              && rainY2[i] > (ofMap(rainX[i], ofGetWidth()/2, triangleX+ofGetWidth()/2, ofGetHeight()/2, mouseY))-20){
+     //           if (rainY2[i] > ofGetWidth()/2 && rainY2[i] <triangleX ){
+            
                 rainY1[i] = -100.0;
                 rainY2[i] = rainY1[i] + ofRandom(10.0, 100.0);
             }
@@ -55,13 +58,15 @@ void ofApp::draw(){
     
     
     for (int i = 0; i<NUM; i++) {
+        ofSetColor(ofRandom(255), ofRandom(255) ,ofRandom(255));
         ofLine(rainX[i], rainY1[i], rainX[i], rainY2[i]);
     }
     
-    ofTranslate(ofGetWidth()/2,ofGetHeight()/2);
+    ofSetColor(255, 255, 255);
+    ofSetLineWidth(5.0);
     
-    triangleX =  sqrt(300*300-mouseY*mouseY);
-    ofLine(0,0, triangleX, mouseY);
+    triangleX =  sqrt(300*300-((ofGetHeight()/2 - mouseY)*(ofGetHeight()/2 - mouseY)));
+    ofLine(ofGetWidth()/2,ofGetHeight()/2, triangleX+ofGetWidth()/2, mouseY);
     
     
     

@@ -19,7 +19,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    static const int NUM = 100;
+    static const int NUM = 200;
     
     float rainX[NUM];
     float rainY1[NUM];
