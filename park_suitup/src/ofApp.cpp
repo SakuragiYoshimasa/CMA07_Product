@@ -1,14 +1,19 @@
 #include "ofApp.h"
+#include "suitUIBox.h"
+#include "ofxGraphViewer.h"
 
 using namespace ofxCv;
 using namespace cv;
 
 void ofApp::setup() {
 	ofSetVerticalSync(true);
-	cam.initGrabber(640, 480);
+	cam.initGrabber(1280, 720);
 	
 	tracker.setup();
 	tracker.setRescale(.5);
+    
+
+    uibox.init(200,100,200);
 }
 
 void ofApp::update() {
@@ -18,6 +23,7 @@ void ofApp::update() {
 			classifier.classify(tracker);
 		}		
 	}
+    uibox.updateUI();
 }
 
 void ofApp::draw() {
@@ -49,7 +55,9 @@ void ofApp::draw() {
     ofMultMatrix(tracker.getRotationMatrix());
 
 
-    ofDrawRectangle(10,10, 100 , 100);
+    ofDrawRectangle(200,100, 100 , 100);
+    ofDrawRectangle(-300,100, 100 , 100);
+    uibox.draw();
     
     ofPopMatrix();
     ofPopStyle();
