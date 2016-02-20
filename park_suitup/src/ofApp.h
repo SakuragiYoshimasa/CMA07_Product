@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "suitUIBox.h"
+#include "graphUIBox.h"
 #include "ofxFaceTracker.h"
 #include "ofxGraphViewer.h"
 
@@ -15,7 +15,5 @@ public:
 	ofVideoGrabber cam;
 	ofxFaceTracker tracker;
 	ExpressionClassifier classifier;
-    suitUIBox uibox;    
+    graphUIBox uibox;
 };
-
-
