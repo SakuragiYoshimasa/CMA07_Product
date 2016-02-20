@@ -7,9 +7,9 @@ void suitUIBox::init(float x, float y, int size){
     
     d = 0;
     
-    gViewer1.setup(512);
-    gViewer1.setRange(-2.0, 2.0);
-    gViewer1.setSize(512, 200);
+    gViewer.setup(512);
+    gViewer.setRange(-2.0, 2.0);
+    gViewer.setSize(512, 200);
 }
 
 void suitUIBox::updateUI(){
@@ -18,9 +18,9 @@ void suitUIBox::updateUI(){
     if(ofGetFrameNum() % ran == 0){
         d = ofRandom(-2.0, 2.0);
     }
-    gViewer1.pushData(d--);
+    gViewer.pushData(d);
 }
 
 void suitUIBox::draw(){
-    gViewer1.draw(10, 10);
+    gViewer.draw(pos.x,pos.y);
 }

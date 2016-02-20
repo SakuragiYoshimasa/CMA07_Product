@@ -15,8 +15,7 @@ public:
 	ofVideoGrabber cam;
 	ofxFaceTracker tracker;
 	ExpressionClassifier classifier;
-    suitUIBox uibox;
-    
+    suitUIBox uibox;    
 };
 
 

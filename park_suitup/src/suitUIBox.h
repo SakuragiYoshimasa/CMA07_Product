@@ -13,6 +13,6 @@ public:
     void init(float x, float y, int size);
     void updateUI();
     void draw();
-    ofxGraphViewer gViewer1;
+    ofxGraphViewer gViewer;
     float d ;
 };
