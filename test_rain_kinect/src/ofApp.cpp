@@ -5,8 +5,6 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
     
-    rain.setup();
-    
     
     /* //     window
      ofBackground(0, 0, 0);
@@ -27,10 +25,6 @@ void ofApp::setup() {
     //  start kinect
     kinect.start();
     
-    for (int i=0 ;i<100; i++) {
-        rainCount.push_back(*new Drop());
-    }
-    
     //raintestよりペースト
     
     ofBackground(0,0,0);
@@ -38,8 +32,12 @@ void ofApp::setup() {
     ofSetFrameRate(30);
     ofSetLineWidth(ofRandom(1.0,3.0));
     
-
-    //ofSetWindowShape(640, 480);
+    
+    for (int i=0 ;i<100; i++) {
+        rainCount.push_back(*new Drop());
+    }
+    
+    ofSetWindowShape(ofGetWidth(), ofGetHeight());
     
 }
 
@@ -47,25 +45,24 @@ void ofApp::setup() {
 void ofApp::update(){
     
     kinect.update();
-    rain.update();
     
+    for(int i=0; i < rainCount.size(); i++){
+        rainCount[i].update();
     
-    //   if (rainX > /*ここに始点X*/ && rainX < /*ここに終点X*/) {
-    //            if ((rainY2 < (ofMap(rainX, /*ここに始点X*/ ,  /*ここに終点X*/, /*ここに始点Y*/ , /*ここに終点Y*/ ))+20)
-    //                && rainY2 > (ofMap(rainX, /*ここに始点X*/ ,  /*ここに終点X*/, /*ここに始点Y*/ , /*ここに終点Y*/ ))-20){
-    //
-    //                rainY1 = -100.0;
-    //                rainY2 = rainY1 + ofRandom(10.0, 100.0);
-    //            }
-    //        }
-    //    }
+        /*if (rainX > x1 && rainX < x2) {
+                if ((rainY2 < (ofMap(rainX, x1 , x2, y1, y2))+20)
+                    && rainY2 > (ofMap(rainX, x1, x2, y1 ,y2 ))-20){
+    
+                    rainY1 = -100.0;
+                    rainY2 = rainY1 + ofRandom(10.0, 100.0);
+                }
+            }
+    }*/
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
-    rain.draw();
-    
     
     //  draw RGB image (weak)
     ofSetColor(100, 100, 100);
@@ -76,6 +73,10 @@ void ofApp::draw(){
     
     //  draw user
     
+    for(int i=0; i < rainCount.size(); i++){
+        rainCount[i].draw();
+    }
+    
     if (kinect.getNumTrackedUsers() > 0) {
         
         //  skeleton data
@@ -83,7 +84,7 @@ void ofApp::draw(){
         
         //  draw two arms
         ofSetLineWidth(5);
-        ofSetColor(0, 0, 0);
+        ofSetColor(255, 255, 255);
         for (int i = 0; i < 6; i++) {
             ofxOpenNILimb limb = user.getLimb(need_limb_id[i]);
             if (limb.isFound()) {

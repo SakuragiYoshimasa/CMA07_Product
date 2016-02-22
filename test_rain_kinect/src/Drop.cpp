@@ -7,9 +7,9 @@
 //
 
 #include "Drop.hpp"
-#include "main.cpp"
+#include "ofmain.h"
 
-void Drop::setup(){
+Drop::Drop(){
     
     rainX = ofRandom(5.0,ofGetWidth()-5.0);
     rainY1 = ofRandom(-ofGetWidth(),-100.0);

@@ -20,7 +20,7 @@ public:
     float rainY2;
     float speed_y;
     
-    void setup();
+    Drop();
     void update();
     void draw();
     
