@@ -48,30 +48,34 @@ void ofApp::update(){
 ///////わからない場所/////////////////////////////////////////////////////////////////////////
     for(int i=0; i < rainCount.size(); i++){
         rainCount[i].update();
-        ofxOpenNILimb limb;
         
-        
-        
-            //rainXがlimbの範囲内にあるかどうか
-        
-            if ( rain.rainX > limb.getStartJoint().getProjectivePosition().x  && rain.rainX < limb.getEndJoint().getProjectivePosition().x) {
+        if (kinect.getNumTrackedUsers() > 0) {
+            ofxOpenNIUser user = kinect.getTrackedUser(0);
+            
+            for (int i = 0; i < 6; i++) {
+                ofxOpenNILimb limb = user.getLimb(need_limb_id[i]);
+                
+                //rainXがlimbの範囲内にあるかどうか
+                if ( rain.rainX > limb.getStartJoint().getProjectivePosition().x  && rain.rainX < limb.getEndJoint().getProjectivePosition().x) {
                 
                 
                 //rainY2がlimbの座標にあるかどうか
-                
                 if ((rain.rainY2 < (ofMap ( rain.rainX, limb.getStartJoint().getProjectivePosition().x, limb.getEndJoint().getProjectivePosition().x, limb.getStartJoint().getProjectivePosition().y, limb.getEndJoint().getProjectivePosition().y ))+20)
                     && rain.rainY2 > (ofMap ( rain.rainX, limb.getStartJoint().getProjectivePosition().x, limb.getEndJoint().getProjectivePosition().x, limb.getStartJoint().getProjectivePosition().y, limb.getEndJoint().getProjectivePosition().y ))-20){
     
                     rain.rainY1 = -100.0;
                     rain.rainY2 = rain.rainY1 + ofRandom(10.0, 100.0);
+                    }
                 }
             }
+        }
     }
-///////////////////////////////////////////////////////////////////////////////////////////
 }
+///////////////////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    
     
     //  draw RGB image (weak)
     ofSetColor(100, 100, 100);
@@ -85,6 +89,7 @@ void ofApp::draw(){
     for(int i=0; i < rainCount.size(); i++){
         rainCount[i].draw();
     }
+    
     
     if (kinect.getNumTrackedUsers() > 0) {
         
@@ -105,7 +110,6 @@ void ofApp::draw(){
             }
         }
     }
-    
 }
 //--------------------------------------------------------------
 void ofApp::exit(){
