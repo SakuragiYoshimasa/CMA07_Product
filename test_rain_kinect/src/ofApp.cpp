@@ -1,7 +1,6 @@
 #include "ofApp.h"
 #include "Drop.hpp"
 
-
 //--------------------------------------------------------------
 void ofApp::setup() {
     
@@ -10,7 +9,6 @@ void ofApp::setup() {
      ofBackground(0, 0, 0);
      ofSetWindowShape(640, 480);
      ofSetFrameRate(30);*/
-    
     
     //  setup ofxOpenNI
     kinect.setup();
@@ -46,19 +44,30 @@ void ofApp::update(){
     
     kinect.update();
     
+    
+///////わからない場所/////////////////////////////////////////////////////////////////////////
     for(int i=0; i < rainCount.size(); i++){
         rainCount[i].update();
+        ofxOpenNILimb limb;
+        
+        
+        
+            //rainXがlimbの範囲内にあるかどうか
+        
+            if ( rain.rainX > limb.getStartJoint().getProjectivePosition().x  && rain.rainX < limb.getEndJoint().getProjectivePosition().x) {
+                
+                
+                //rainY2がlimbの座標にあるかどうか
+                
+                if ((rain.rainY2 < (ofMap ( rain.rainX, limb.getStartJoint().getProjectivePosition().x, limb.getEndJoint().getProjectivePosition().x, limb.getStartJoint().getProjectivePosition().y, limb.getEndJoint().getProjectivePosition().y ))+20)
+                    && rain.rainY2 > (ofMap ( rain.rainX, limb.getStartJoint().getProjectivePosition().x, limb.getEndJoint().getProjectivePosition().x, limb.getStartJoint().getProjectivePosition().y, limb.getEndJoint().getProjectivePosition().y ))-20){
     
-        /*if (rainX > x1 && rainX < x2) {
-                if ((rainY2 < (ofMap(rainX, x1 , x2, y1, y2))+20)
-                    && rainY2 > (ofMap(rainX, x1, x2, y1 ,y2 ))-20){
-    
-                    rainY1 = -100.0;
-                    rainY2 = rainY1 + ofRandom(10.0, 100.0);
+                    rain.rainY1 = -100.0;
+                    rain.rainY2 = rain.rainY1 + ofRandom(10.0, 100.0);
                 }
             }
-    }*/
     }
+///////////////////////////////////////////////////////////////////////////////////////////
 }
 
 //--------------------------------------------------------------

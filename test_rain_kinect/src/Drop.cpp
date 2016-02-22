@@ -12,15 +12,15 @@
 Drop::Drop(){
     
     rainX = ofRandom(5.0,ofGetWidth()-5.0);
-    rainY1 = ofRandom(-ofGetWidth(),-100.0);
+    rainY1 = ofRandom(-ofGetHeight(),-100.0);
     rainY2 = rainY1 + ofRandom(10.0, 100.0);
     speed_y =  ofRandom(10.0, 30.0);
 }
 
 void Drop::update(){
     
-    rainY1 = rainY1 + speed_y;
-    rainY2 = rainY2 + speed_y;
+    rainY1 += speed_y;
+    rainY2 += speed_y;
     
     if (rainY1 > ofGetHeight()) {
         rainY1 = -100.0;
