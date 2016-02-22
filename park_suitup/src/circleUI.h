@@ -6,9 +6,7 @@ class circleUI {
 private:
     ofColor color;
     ofPoint pos;
-    int size_box;
-    int fix_size_box;
-    int mode_size;
+    int size;
     
 public:
     void init();
