@@ -37,8 +37,6 @@ void graphUIBox::updateUI(){
 void graphUIBox::setModesize(int mode_size_){
     mode_size = mode_size_;
     switch(mode_size){
-        case 0:
-            
         case 1:
             fix_size_box = 20;
             break;
