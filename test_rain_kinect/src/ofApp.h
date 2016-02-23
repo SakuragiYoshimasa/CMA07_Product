@@ -24,7 +24,6 @@ public:
     
     Limb need_limb_id[6] = {LIMB_LEFT_LOWER_ARM,LIMB_LEFT_UPPER_ARM,LIMB_RIGHT_LOWER_ARM,LIMB_RIGHT_UPPER_ARM,LIMB_RIGHT_SHOULDER,LIMB_LEFT_SHOULDER};
     
-    vector<Drop> rainCount;
-    Drop rain;
+    vector<Drop> rain;
 };
 

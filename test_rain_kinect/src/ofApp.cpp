@@ -28,7 +28,7 @@ void ofApp::setup() {
     
     
     for (int i=0 ;i<100; i++) {
-        rainCount.push_back(*new Drop());
+        rain.push_back(*new Drop());
     }
     
 }
@@ -40,8 +40,8 @@ void ofApp::update(){
     
     
 ///////わからない場所/////////////////////////////////////////////////////////////////////////
-    for(int i=0; i < rainCount.size(); i++){
-        rainCount[i].update();
+    for(int i=0; i < rain.size(); i++){
+        rain[i].update();
     
         if (kinect.getNumTrackedUsers() > 0) {
             ofxOpenNIUser user = kinect.getTrackedUser(0);
@@ -57,15 +57,15 @@ void ofApp::update(){
                     float y2 = limb.getEndJoint().getProjectivePosition().y;
                 
                 //rainXがlimbの範囲内にあるかどうか
-                if ( (rain.rainX > x1  && rain.rainX < x2) || (rain.rainX > x2  && rain.rainX < x1)) {
+                if ( (rain[i].rainX > x1  && rain[i].rainX < x2) || (rain[i].rainX > x2  && rain[i].rainX < x1)) {
                 
                 
                 //rainY2がlimbの座標にあるかどうか
-                if ((rain.rainY2 < (ofMap ( rain.rainX, x1, x2, y1, y2 ))+20)
-                    && rain.rainY2 > (ofMap ( rain.rainX, x1, x2, y1, y2 ))-20){
+                if ((rain[i].rainY2 < (ofMap ( rain[i].rainX, x1, x2, y1, y2 ))+20)
+                    && rain[i].rainY2 > (ofMap ( rain[i].rainX, x1, x2, y1, y2 ))-20){
     
-                    rain.rainY1 = -100.0;
-                    rain.rainY2 = rain.rainY1 + ofRandom(10.0, 100.0);
+                    rain[i].rainY1 = -100.0;
+                    rain[i].rainY2 = rain[i].rainY1 + ofRandom(10.0, 100.0);
                     }
                 }
             }
@@ -88,8 +88,8 @@ void ofApp::draw(){
     
     //  draw user
     
-    for(int i=0; i < rainCount.size(); i++){
-        rainCount[i].draw();
+    for(int i=0; i < rain.size(); i++){
+        rain[i].draw();
     }
     
     
