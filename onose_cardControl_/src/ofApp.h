@@ -25,30 +25,27 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    // ウェブカメラ
+    
+    string cardFileName = "card_lit.png";
+    ofImage ofCardImg;
+    ofxCvColorImage ofxCvCardImg;
+    
     ofVideoGrabber vidGrabber;
     ofxCvColorImage colorImg;
-    CvMat colorCvImg;
+    ofxCvGrayscaleImage grayImg;
+//    ofxCvGrayscaleImage featureDetectorMonitor;
+    
+    Mat grabberImg;
     
     const int camWidth = 640;
     const int camHeight = 480;
     
-    // テンプレート画像
+    // feature detection
+    Mat imgScene;
+    Mat imgCard;
     
-    string subjectImgFileName = "card_lit.png";
-    ofImage subjectImgFile;
-    ofxCvColorImage subjectImg;
-    CvMat subjectCvImg;
-    
-    const int subjectImgWidth = 320;
-    const int subjectImgHeight = 240;
-    ofPoint subjectImgLoc;
-    
-    // マッチしたポイント
-    CvMat result;
-    double minVal, maxVal;
-    CvPoint minLoc, maxLoc;
+    Mat img_matches;
     
     
-    
+    vector<DMatch> matches;
 };

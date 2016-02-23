@@ -5,55 +5,90 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofBackground(0);
+//    ofSetBackgroundColor(0);
+//    grabber.initGrabber(960, 640);
     
-    // カメラを設定
     vidGrabber.setVerbose(true);
     vidGrabber.initGrabber(camWidth, camHeight);
-    colorImg.allocate(camWidth, camHeight);
-//    colorCvImg = toCv(vidGrabber.getPixelsRef());
     
-    // テンプレート画像を定義
-    subjectImgFile.loadImage(subjectImgFileName);
-    subjectImgFile.resize(subjectImgWidth, subjectImgHeight);
-    subjectImg.setFromPixels(subjectImgFile.getPixels(), subjectImgWidth, subjectImgHeight);
+    colorImg.allocate(camWidth, camHeight);
+//    grayImg.allocate(camWidth, camHeight);
+    
+    // load card image
+    ofCardImg.loadImage(cardFileName);
+    ofxCvCardImg.setFromPixels(ofCardImg.getPixels(), camWidth, camHeight);
+    imgCard = ofxCvCardImg.getCvImage();
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
-    //-- カメラを更新
     vidGrabber.update();
-    if(vidGrabber.isFrameNew()){
-        colorImg.setFromPixels(vidGrabber.getPixels(), camWidth, camHeight);
-    }
+//    vidGrabber.getPixelFormat();
+//    if (vidGrabber.isFrameNew())
+//    {
+//        colorImg.setFromPixels(vidGrabber.getPixels(), camWidth,camHeight);
+//    }
+    colorImg.setFromPixels(vidGrabber.getPixels(), camWidth,camHeight);
+
+//    grabberImg = vidGrabber.getPixelFormat();
+//    copyGray(vidGrabber, grabberImg);
+//    
+//    SurfFeatureDetector detector;
     
+//    copyGray(colorImg, grayImg);
+    grayImg = colorImg;
     
-    //-- テンプレートマッチング
-    // result の領域を確保
-    IplImage *result = cvCreateImage(cvSize(camWidth - subjectImgWidth + 1, camHeight - subjectImgHeight + 1), 32, 1);
-    cvMatchTemplate(colorImg.getCvImage(), subjectImg.getCvImage(), result, CV_TM_SQDIFF);
+    //// feature detection
     
-    // 結果を取得
-    cvMinMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc, 0);
+    imgScene = grayImg.getCvImage();
     
+    // 2. detecting keypoints
+    FastFeatureDetector detector(50);
+    vector<KeyPoint> keypointsScene;
+    detector.detect(imgScene, keypointsScene);
+    vector<KeyPoint> keypointsCard;
+    detector.detect(imgCard, keypointsCard);
+    
+    // 3. computing descriptors
+    SurfDescriptorExtractor extractor;
+    Mat descriptorsScene;
+    extractor.compute(imgScene, keypointsScene, descriptorsScene);
+    Mat descriptorsCard;
+    extractor.compute(imgScene, keypointsCard, descriptorsCard);
+    
+    // 4. matching descriptors
+    BruteForceMatcher<L2<float> > matcher;
+    matcher.match(descriptorsScene, descriptorsCard, matches);
+    
+    // 5. export matching img data
+    
+    drawMatches(imgScene, keypointsScene, imgCard, keypointsCard, matches, img_matches);
+    ofImage tempImg;
+    toOf(img_matches, tempImg);
+    colorImg.setFromPixels(tempImg.getPixels(), camWidth, camHeight);
+    
+    // *.
     
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    // カメラフレームを描画
+//    flow.draw();
+//    if(ofGetMousePressed()){
+//        ofNoFill();
+//        ofRect(rect);
+//    }
     ofSetHexColor(0xffffff);
-    colorImg.draw(0, 0);
+//    grayImg.draw(0, 0, camWidth, camHeight);
+    colorImg.draw(0, 0, camWidth, camHeight);
     
-    // テンプレート画像を表示
-    subjectImg.draw(camWidth, 0, subjectImgWidth, subjectImgHeight);
+    vidGrabber.draw(camWidth + 320, 0, -320, 240);
+    ofxCvCardImg.draw(camWidth, camHeight/2, camWidth/2, camHeight/2);
     
-    // マッチング箇所を表示
-    ofNoFill();
-    ofSetHexColor(0x00ffff);
-    ofRect(minLoc.x, minLoc.y, subjectImgWidth, subjectImgHeight);
+
+    matches.size();
 }
 
 //--------------------------------------------------------------

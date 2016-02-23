@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "onose_cardControl.app"
-               BlueprintName = "onose_cardControl"
-               ReferencedContainer = "container:onose_cardControl.xcodeproj">
+               BuildableName = "onose_cardControl_.app"
+               BlueprintName = "onose_cardControl_"
+               ReferencedContainer = "container:onose_cardControl_.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "onose_cardControl.app"
-            BlueprintName = "onose_cardControl"
-            ReferencedContainer = "container:onose_cardControl.xcodeproj">
+            BuildableName = "onose_cardControl_.app"
+            BlueprintName = "onose_cardControl_"
+            ReferencedContainer = "container:onose_cardControl_.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "onose_cardControl.app"
-            BlueprintName = "onose_cardControl"
-            ReferencedContainer = "container:onose_cardControl.xcodeproj">
+            BuildableName = "onose_cardControl_.app"
+            BlueprintName = "onose_cardControl_"
+            ReferencedContainer = "container:onose_cardControl_.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "onose_cardControl.app"
-            BlueprintName = "onose_cardControl"
-            ReferencedContainer = "container:onose_cardControl.xcodeproj">
+            BuildableName = "onose_cardControl_.app"
+            BlueprintName = "onose_cardControl_"
+            ReferencedContainer = "container:onose_cardControl_.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
