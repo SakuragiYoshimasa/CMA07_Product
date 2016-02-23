@@ -4,11 +4,7 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
     
-    
-    /* //     window
-     ofBackground(0, 0, 0);
-     ofSetWindowShape(640, 480);
-     ofSetFrameRate(30);*/
+    ofSetWindowShape(ofGetWidth(), ofGetHeight());
     
     //  setup ofxOpenNI
     kinect.setup();
@@ -35,8 +31,6 @@ void ofApp::setup() {
         rainCount.push_back(*new Drop());
     }
     
-    ofSetWindowShape(ofGetWidth(), ofGetHeight());
-    
 }
 
 //--------------------------------------------------------------
@@ -48,20 +42,27 @@ void ofApp::update(){
 ///////わからない場所/////////////////////////////////////////////////////////////////////////
     for(int i=0; i < rainCount.size(); i++){
         rainCount[i].update();
-        
+    
         if (kinect.getNumTrackedUsers() > 0) {
             ofxOpenNIUser user = kinect.getTrackedUser(0);
             
+    
             for (int i = 0; i < 6; i++) {
                 ofxOpenNILimb limb = user.getLimb(need_limb_id[i]);
                 
+                if (limb.isFound()) {
+                    float x1 = limb.getStartJoint().getProjectivePosition().x;
+                    float y1 = limb.getStartJoint().getProjectivePosition().y;
+                    float x2 = limb.getEndJoint().getProjectivePosition().x;
+                    float y2 = limb.getEndJoint().getProjectivePosition().y;
+                
                 //rainXがlimbの範囲内にあるかどうか
-                if ( rain.rainX > limb.getStartJoint().getProjectivePosition().x  && rain.rainX < limb.getEndJoint().getProjectivePosition().x) {
+                if ( rain.rainX > x1  && rain.rainX < x2) {
                 
                 
                 //rainY2がlimbの座標にあるかどうか
-                if ((rain.rainY2 < (ofMap ( rain.rainX, limb.getStartJoint().getProjectivePosition().x, limb.getEndJoint().getProjectivePosition().x, limb.getStartJoint().getProjectivePosition().y, limb.getEndJoint().getProjectivePosition().y ))+20)
-                    && rain.rainY2 > (ofMap ( rain.rainX, limb.getStartJoint().getProjectivePosition().x, limb.getEndJoint().getProjectivePosition().x, limb.getStartJoint().getProjectivePosition().y, limb.getEndJoint().getProjectivePosition().y ))-20){
+                if ((rain.rainY2 < (ofMap ( rain.rainX, x1, x2, y1, y2 ))+20)
+                    && rain.rainY2 > (ofMap ( rain.rainX, x1, x2, y1, y2 ))-20){
     
                     rain.rainY1 = -100.0;
                     rain.rainY2 = rain.rainY1 + ofRandom(10.0, 100.0);
@@ -70,6 +71,7 @@ void ofApp::update(){
             }
         }
     }
+}
 }
 ///////////////////////////////////////////////////////////////////////////////////////////
 
