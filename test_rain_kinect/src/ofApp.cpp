@@ -47,8 +47,8 @@ void ofApp::update(){
             ofxOpenNIUser user = kinect.getTrackedUser(0);
             
     
-            for (int i = 0; i < 6; i++) {
-                ofxOpenNILimb limb = user.getLimb(need_limb_id[i]);
+            for (int j = 0; j < 6; j++) {
+                ofxOpenNILimb limb = user.getLimb(need_limb_id[j]);
                 
                 if (limb.isFound()) {
                     float x1 = limb.getStartJoint().getProjectivePosition().x;
@@ -57,7 +57,7 @@ void ofApp::update(){
                     float y2 = limb.getEndJoint().getProjectivePosition().y;
                 
                 //rainXがlimbの範囲内にあるかどうか
-                if ( rain.rainX > x1  && rain.rainX < x2) {
+                if ( (rain.rainX > x1  && rain.rainX < x2) || (rain.rainX > x2  && rain.rainX < x1)) {
                 
                 
                 //rainY2がlimbの座標にあるかどうか
