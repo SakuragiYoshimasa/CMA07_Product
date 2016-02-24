@@ -16,7 +16,8 @@ void ofApp::setup(){
     
     // load card image
     ofCardImg.loadImage(cardFileName);
-    ofxCvCardImg.setFromPixels(ofCardImg.getPixels(), camWidth, camHeight);
+    ofCardImg.resize(320, 240);
+    ofxCvCardImg.setFromPixels(ofCardImg.getPixels(), 320, 240);
     imgCard = ofxCvCardImg.getCvImage();
     
 }
@@ -43,27 +44,50 @@ void ofApp::update(){
     
     imgScene = grayImg.getCvImage();
     
-    // 2. detecting keypoints
+    // 1. detecting keypoints
+    
     FastFeatureDetector detector(50);
     vector<KeyPoint> keypointsScene;
     detector.detect(imgScene, keypointsScene);
     vector<KeyPoint> keypointsCard;
     detector.detect(imgCard, keypointsCard);
     
-    // 3. computing descriptors
+    // 2. computing descriptors
     SurfDescriptorExtractor extractor;
     Mat descriptorsScene;
     extractor.compute(imgScene, keypointsScene, descriptorsScene);
     Mat descriptorsCard;
     extractor.compute(imgScene, keypointsCard, descriptorsCard);
     
-    // 4. matching descriptors
-    BruteForceMatcher<L2<float> > matcher;
+    // 3. matching descriptors
+//    BruteForceMatcher<L2<float> > matcher;
+//    matcher.match(descriptorsScene, descriptorsCard, matches);
+    FlannBasedMatcher matcher;
+    std::vector< DMatch > matches;
     matcher.match(descriptorsScene, descriptorsCard, matches);
+    
+    double max_dist = 0; double min_dist = 100;
+    
+    for( int i = 0; i < descriptorsScene.rows; i++ ){
+        double dist = matches[i].distance;
+        if( dist < min_dist ) min_dist = dist;
+        if( dist > max_dist ) max_dist = dist;
+    }
+    
+    std::vector<DMatch> good_matches;
+    
+    for( int i = 0; i < descriptorsScene.rows; i++ ){
+        if( matches[i].distance <= max(2*min_dist, 0.02) ){ good_matches.push_back( matches[i]);
+        }
+    }
+    
+    drawMatches(imgScene, keypointsScene, imgCard, keypointsCard, good_matches, img_matches, DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
+    
+//    drawKeypoints(imgScene, keypointsScene, img_matches);
     
     // 5. export matching img data
     
-    drawMatches(imgScene, keypointsScene, imgCard, keypointsCard, matches, img_matches);
+//    drawMatches(imgScene, keypointsScene, imgCard, keypointsCard, matches, img_matches);
     ofImage tempImg;
     toOf(img_matches, tempImg);
     colorImg.setFromPixels(tempImg.getPixels(), camWidth, camHeight);
