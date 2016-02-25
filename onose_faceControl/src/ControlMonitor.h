@@ -23,12 +23,16 @@ public:
     void setup();
     void update();
     void draw();
+    void drawControlCircle();
     
     ControlMonitor();
     ~ControlMonitor(){};
     
     FaceTracker faceTracker;
     Config conf;
+    
+    ofMatrix4x4 rotationMatrix;
+    ofSpherePrimitive centerSphere;
 };
 
 #endif /* ControlMonitor_h */

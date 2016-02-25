@@ -27,6 +27,9 @@ public:
     void drawCam();
     void drawTracker();
     void drawFaceWire();
+    bool getFound();
+    bool getMouseOpend();
+    float getGesture(ofxFaceTracker::Gesture gesture);
     
     ofVideoGrabber cam;
     ofxFaceTracker tracker;

@@ -47,4 +47,19 @@ void FaceTracker::drawFaceWire(){
     }
 }
 
+bool FaceTracker::getFound(){
+    return tracker.getFound();
+}
+
+bool FaceTracker::getMouseOpend(){
+    float mouseHeight = getGesture(ofxFaceTracker::MOUTH_HEIGHT);
+    if (mouseHeight > conf.mouseOpenedHeightThreshold) {
+        return true;
+    }
+    return false;
+}
+
+float FaceTracker::getGesture(ofxFaceTracker::Gesture gesture){
+    return tracker.getGesture(gesture);
+}
 

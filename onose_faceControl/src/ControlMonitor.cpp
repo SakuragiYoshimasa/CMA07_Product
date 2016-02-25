@@ -27,20 +27,37 @@ void ControlMonitor::draw(){
     faceTracker.drawTracker();
     
     // easyCam.begin();
-    ofSetupScreenOrtho(640, 480, -1000, 1000);
-    ofTranslate(640 / 2, 480 / 2);
+    ofSetupScreenOrtho(conf.camWidth, conf.camHeight, -1000, 1000);
+    ofTranslate(conf.camWidth / 2, conf.camHeight / 2);
     
     ofPushMatrix();
     applyMatrix(faceTracker.rotationMatrix);
     ofScale(5,5,5);
-//    faceTracker.drawFaceWire();
-    
-    ofNoFill();
-    ofRect(-10, -10, 20, 20);
-    ofDrawBitmapString("x: " + ofToString(faceTracker.orientation.x), 12, 0);
-    ofDrawBitmapString("y: " + ofToString(faceTracker.orientation.y), 12, 6);
-    ofDrawBitmapString("z: " + ofToString(faceTracker.orientation.z), 12, 12);
-    
+    if(faceTracker.getFound()){
+        ofSetColor(255, 0, 0);
+    }
+    drawControlCircle();
     ofPopMatrix();
     // easyCam.end();
 }
+
+void ControlMonitor::drawControlCircle(){
+    ofNoFill();
+    ofCircle(0, 0, 0, 30);
+    if(faceTracker.getMouseOpend()){
+        centerSphere.set(10, 10);
+        centerSphere.drawWireframe();
+    }
+    ofFill();
+    ofRect(30, -6, (faceTracker.orientation.x * 50), 4);
+    ofRect(30, -2, (faceTracker.orientation.y * 50), 4);
+    ofRect(30,  2, (faceTracker.orientation.z * 50), 4);
+    ofDrawBitmapString("x: " + ofToString(faceTracker.orientation.x), 20, 20);
+    ofDrawBitmapString("y: " + ofToString(faceTracker.orientation.y), 20, 26);
+    ofDrawBitmapString("z: " + ofToString(faceTracker.orientation.z), 20, 32);
+    ofDrawBitmapString("MH: " + ofToString(faceTracker.getGesture(ofxFaceTracker::MOUTH_HEIGHT)), 20, 38);
+    
+    
+}
+
+

@@ -18,6 +18,9 @@ public:
     
     const int camWidth = 640;
     const int camHeight = 480;
+    
+    const float mouseOpenedHeightThreshold = 3.0;
+    
 };
 
 #endif /* Config_h */
