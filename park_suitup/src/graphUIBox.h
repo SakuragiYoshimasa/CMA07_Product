@@ -3,12 +3,11 @@
 
 #pragma once
 
-#define GRAPHUI_MIN_SIZE 200
-#define GRAPHUI_MAX_SIZE 500
+#define GRAPHUI_MIN_SIZE 150
+#define GRAPHUI_MAX_SIZE 400
 
 class graphUIBox {
 private:
-    ofColor color;
     ofPoint pos;
     int size_box;
     int fix_size_box;

@@ -6,16 +6,20 @@ using namespace cv;
 
 void ofApp::setup() {
 	ofSetVerticalSync(true);
+    ofEnableAlphaBlending();
+    
 	cam.initGrabber(1280, 720);
 	
 	tracker.setup();
 	tracker.setRescale(.5);
 
     uibox.init(400,200);
+    eyeCircle.init();
 }
 
 void ofApp::update() {
     uibox.updateUI();
+    eyeCircle.updateUI();
     
 	cam.update();
 
@@ -51,6 +55,8 @@ void ofApp::update() {
             uibox.setModesize(2);
         }
     }
+    
+    
 }
 
 void ofApp::draw() {
@@ -63,11 +69,18 @@ void ofApp::draw() {
     //draw movalbe UI
     ofPushStyle();
     ofPushMatrix();
-    ofTranslate(tracker.getPosition());
-    ofMultMatrix(tracker.getRotationMatrix());
-
-    ofDrawRectangle(200,-100, 100 , 100);
-    ofDrawRectangle(-300,-100, 100 , 100);
+    ofPoint eyePos = (tracker.getImagePoint(42)+tracker.getImagePoint(45))/2;
+    ofTranslate(eyePos);
+    
+    //reverseMatrix
+    ofMatrix4x4 reverseMatrix;
+    ofQuaternion newMatrix = tracker.getRotationMatrix().getRotate();
+    
+    newMatrix.set(-newMatrix.x(), -newMatrix.y(), newMatrix.z(), newMatrix.w());
+    reverseMatrix.setRotate(newMatrix);
+    ofMultMatrix(reverseMatrix);
+    
+    eyeCircle.draw();
     
     ofPopMatrix();
     ofPopStyle();
@@ -85,10 +98,8 @@ void ofApp::draw() {
     ofPopStyle();
 
     
-
-    
 	ofDrawBitmapString(ofToString((int) ofGetFrameRate()), ofGetWidth() - 20, ofGetHeight() - 10);
-	ofDrawBitmapString(ofToString(tracker.getRotationMatrix().getRotate().getEuler().y), ofGetWidth()/2, ofGetHeight() - 50);
+	ofDrawBitmapString(ofToString(tracker.getPosition()), ofGetWidth()/2, ofGetHeight() - 50);
 }
 
 void ofApp::keyPressed(int key) {

@@ -4,6 +4,7 @@
 #include "graphUIBox.h"
 #include "ofxFaceTracker.h"
 #include "ofxGraphViewer.h"
+#include "circleUI.h"
 
 class ofApp : public ofBaseApp {
 public:
@@ -15,5 +16,7 @@ public:
 	ofVideoGrabber cam;
 	ofxFaceTracker tracker;
 	ExpressionClassifier classifier;
+    
     graphUIBox uibox;
+    circleUI eyeCircle;
 };
