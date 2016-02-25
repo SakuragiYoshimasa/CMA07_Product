@@ -24,7 +24,7 @@ public:
     MidiControl();
     ~MidiControl(){};
     
-    ofxMidiOut midiOut;
+//    ofxMidiOut midiOut;
     int channel;
     unsigned int currentPgm;
     int note, velocity;
