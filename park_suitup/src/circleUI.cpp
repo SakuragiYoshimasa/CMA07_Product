@@ -13,7 +13,7 @@ void circleUI::init(){
     fix_angle = 0;
 }
 
-void circleUI::updateUI(){
+void circleUI::update(){
     for(int i = 0; i < NUM_IMAGE ; i++){
         angleCircle[i] += 5 * (i + 1);
         

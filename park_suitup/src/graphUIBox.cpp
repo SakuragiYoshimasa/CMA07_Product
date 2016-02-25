@@ -1,9 +1,8 @@
 #include "graphUIBox.h"
 
 
-void graphUIBox::init(float x, float y){
-    pos.x = x;
-    pos.y = y;
+void graphUIBox::init(ofPoint pos_){
+    pos = pos_;
     
     size_box = GRAPHUI_MAX_SIZE/2;
     fix_size_box = 0;
@@ -16,7 +15,7 @@ void graphUIBox::init(float x, float y){
     gViewer.setSize(size_box * 1.5, size_box);
 }
 
-void graphUIBox::updateUI(){
+void graphUIBox::update(){
     
     int ran = ofRandom(1.0, 150.0);
     if(ofGetFrameNum() % ran == 0){
@@ -47,5 +46,12 @@ void graphUIBox::setModesize(int mode_size_){
 }
 
 void graphUIBox::draw(){
+    ofPushStyle();
+    ofPushMatrix();
+    
+    ofRotate(25, -0.3, 0.5, 0);
     gViewer.draw(pos.x,pos.y);
+    
+    ofPopStyle();
+    ofPopMatrix();
 }

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-               BuildableName = "park_suitUp.app"
-               BlueprintName = "park_suitUp"
-               ReferencedContainer = "container:park_suitUp.xcodeproj">
+               BuildableName = "park_suitup.app"
+               BlueprintName = "park_suitup"
+               ReferencedContainer = "container:park_suitup.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "park_suitUp.app"
-            BlueprintName = "park_suitUp"
-            ReferencedContainer = "container:park_suitUp.xcodeproj">
+            BuildableName = "park_suitup.app"
+            BlueprintName = "park_suitup"
+            ReferencedContainer = "container:park_suitup.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "park_suitUp.app"
-            BlueprintName = "park_suitUp"
-            ReferencedContainer = "container:park_suitUp.xcodeproj">
+            BuildableName = "park_suitup.app"
+            BlueprintName = "park_suitup"
+            ReferencedContainer = "container:park_suitup.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E4B69B5A0A3A1756003C02F2"
-            BuildableName = "park_suitUp.app"
-            BlueprintName = "park_suitUp"
-            ReferencedContainer = "container:park_suitUp.xcodeproj">
+            BuildableName = "park_suitup.app"
+            BlueprintName = "park_suitup"
+            ReferencedContainer = "container:park_suitup.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

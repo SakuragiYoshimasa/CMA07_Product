@@ -5,12 +5,11 @@
 class circleUI {
 private:
     ofColor color;
-    ofPoint pos;
     int size;
     
 public:
     void init();
-    void updateUI();
+    void update();
     void draw();
     
     ofImage circleImage[NUM_IMAGE];

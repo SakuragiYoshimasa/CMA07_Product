@@ -1,5 +1,4 @@
 #include "ofApp.h"
-#include "ofxGraphViewer.h"
 
 using namespace ofxCv;
 using namespace cv;
@@ -8,27 +7,43 @@ void ofApp::setup() {
 	ofSetVerticalSync(true);
     ofEnableAlphaBlending();
     
+    //setup Camera
 	cam.initGrabber(1280, 720);
+    
+    maskImg.load("image/mask.jpg");
+    bottomImg.load("image/bottomimage.jpg");
+
+    alphaMask = new ofxAlphaMaskTexture(cam.getTexture(),       // top layer texture
+                                        bottomImg.getTexture(), // bottom layer texture
+                                        maskImg.getTexture());  // mask layer texture
 	
+    //seup Facetracker
 	tracker.setup();
 	tracker.setRescale(.5);
-
-    uibox.init(400,200);
+    
+    //setup UI
     eyeCircle.init();
+    
+    uibox.init(ofPoint(400,200));
+    robot.init(ofPoint(-400,200));
 }
 
 void ofApp::update() {
-    uibox.updateUI();
-    eyeCircle.updateUI();
+    //update UI
+    uibox.update();
+    eyeCircle.update();
     
+    //update Camera
 	cam.update();
+    
+    alphaMask->maskScale =  ofMap(tracker.getScale(),0.0,10.0,0.0,1.0);
 
 	if(cam.isFrameNew()) {
         ofPixels newPixels = cam.getPixels();
         ofPixels reversePixels;
         reversePixels.allocate(cam.getWidth(), cam.getHeight(), OF_PIXELS_BGR);
         
-        //reverse cam
+        //reverse cam pixels
         for(int h = 0; h < cam.getHeight(); h++){
             for(int w = 0; w < cam.getWidth(); w++){
                 reversePixels[h * cam.getWidth() * 3 + w * 3] = newPixels[h * cam.getWidth() * 3 + (cam.getWidth() - 1 - w) * 3];
@@ -62,44 +77,60 @@ void ofApp::update() {
 void ofApp::draw() {
 	ofSetColor(255);
     
-    cam.draw(cam.getWidth(), 0, -cam.getWidth(), cam.getHeight());
+//    cam.draw(cam.getWidth(), 0, -cam.getWidth(), cam.getHeight());
     
-//    tracker.draw();
+    ofPushMatrix();
+    ofPushStyle();
+    
+    ofScale(-1,1);
+    ofTranslate(-cam.getWidth(),0);
+    alphaMask->draw();
+    
+    ofPopMatrix();
+    ofPopStyle();
 
-    //draw movalbe UI
-    ofPushStyle();
-    ofPushMatrix();
-    ofPoint eyePos = (tracker.getImagePoint(42)+tracker.getImagePoint(45))/2;
-    ofTranslate(eyePos);
-    
-    //reverseMatrix
-    ofMatrix4x4 reverseMatrix;
-    ofQuaternion newMatrix = tracker.getRotationMatrix().getRotate();
-    
-    newMatrix.set(-newMatrix.x(), -newMatrix.y(), newMatrix.z(), newMatrix.w());
-    reverseMatrix.setRotate(newMatrix);
-    ofMultMatrix(reverseMatrix);
-    
-    eyeCircle.draw();
-    
-    ofPopMatrix();
-    ofPopStyle();
-    
-    //draw stand UI
-    ofPushStyle();
-    ofPushMatrix();
-    
-    ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
-    //right_bottom_lineGraph
-    ofRotate(25, -0.3, 0.5, 0);
-    uibox.draw();
-    
-    ofPopMatrix();
-    ofPopStyle();
+    if(tracker.getHaarFound()){
+        
+        if(tracker.getImagePoint(42) != tracker.getImagePoint(45)){
+            
+            //draw movalbe UI
+            ofPushStyle();
+            ofPushMatrix();
+            ofPoint eyePos = (tracker.getImagePoint(42)+tracker.getImagePoint(45))/2;
+            ofTranslate(eyePos);
+
+            //reverseMatrix
+            ofMatrix4x4 reverseMatrix;
+            ofQuaternion newMatrix = tracker.getRotationMatrix().getRotate();
+
+            newMatrix.set(-newMatrix.x(), -newMatrix.y(), newMatrix.z(), newMatrix.w());
+            reverseMatrix.setRotate(newMatrix);
+            ofMultMatrix(reverseMatrix);
+
+            eyeCircle.draw();
+
+            ofPopMatrix();
+            ofPopStyle();
+        }
+
+        
+        //draw stand UI
+        ofPushStyle();
+        ofPushMatrix();
+
+        ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
+        
+        //right_bottom_lineGraph
+        uibox.draw();
+        robot.draw();
+
+        ofPopMatrix();
+        ofPopStyle();
+    }
 
     
 	ofDrawBitmapString(ofToString((int) ofGetFrameRate()), ofGetWidth() - 20, ofGetHeight() - 10);
-	ofDrawBitmapString(ofToString(tracker.getPosition()), ofGetWidth()/2, ofGetHeight() - 50);
+	ofDrawBitmapString(ofToString(tracker.getScale()), ofGetWidth()/2, ofGetHeight() - 50);
 }
 
 void ofApp::keyPressed(int key) {

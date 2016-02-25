@@ -14,8 +14,8 @@ private:
     int mode_size;
     
 public:
-    void init(float x, float y);
-    void updateUI();
+    void init(ofPoint pos_);
+    void update();
     void setModesize(int mode_size_);
     void draw();
     
