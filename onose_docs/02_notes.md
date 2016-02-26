@@ -35,4 +35,11 @@ Addon
 * class MidiControl
 	* x, y, z 座標を元に，MIDI 制御できる形式に変換
 
+アイデア
+---
+* 入力としておもしろそうなもの
+	* Face Tracker
+		* https://github.com/kylemcdonald/ofxFaceTracker
+
+
 
