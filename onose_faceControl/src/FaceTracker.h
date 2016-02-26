@@ -24,6 +24,7 @@ public:
     ~FaceTracker(){};
     void setup();
     void update();
+    void reset();
     void drawCam();
     void drawTracker();
     void drawFaceWire();

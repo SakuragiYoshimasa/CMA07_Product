@@ -57,7 +57,6 @@ void ControlMonitor::drawControlCircle(){
     ofDrawBitmapString("z: " + ofToString(faceTracker.orientation.z), 20, 32);
     ofDrawBitmapString("MH: " + ofToString(faceTracker.getGesture(ofxFaceTracker::MOUTH_HEIGHT)), 20, 38);
     
-    
 }
 
 

@@ -5,6 +5,7 @@
 #include "ControlMonitor.h"
 #include "MidiControl.h"
 #include "ofxMidi.h"
+#include "FaceTracker.h"
 
 using namespace ofxCv;
 using namespace cv;
@@ -22,6 +23,8 @@ public:
 	
     MidiControl midiControl;
     ControlMonitor controlMonitor;
+    FaceTracker faceTracker;
+    
     
     ofxMidiOut midiOut;
     

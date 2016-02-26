@@ -14,6 +14,8 @@ void ofApp::setup() {
 
 void ofApp::update() {
     controlMonitor.update();
+    midiControl.update();
+//    midiControl.controlWave(16, 0.01);
 }
 
 void ofApp::draw() {
@@ -22,9 +24,17 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed(int key) {
-//	if(key == 'r') {
-//		tracker.reset();
-//	}
+    
+    switch (key) {
+        case ' ':
+//            midiControl.controlWave(16, 0.01);
+            break;
+        case 'r':
+            faceTracker.reset();
+            break;
+        default:
+            break;
+    }
 }
 void ofApp::mouseDragged(int x, int y, int button){
     midiControl.mouseDragged(x, y, button);
