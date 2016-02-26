@@ -13,9 +13,11 @@ void circleUI::init(){
     fix_angle = 0;
 }
 
-void circleUI::updateUI(){
+void circleUI::update(){
     for(int i = 0; i < NUM_IMAGE ; i++){
         angleCircle[i] += 5 * (i + 1);
+        
+        //reverse angleCircle[0],angleCircle[2]
         if(i%2 == 0){
             angleCircle[i] = -angleCircle[i];
         }

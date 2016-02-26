@@ -1,10 +1,13 @@
 #pragma once
 
 #include "ofMain.h"
-#include "graphUIBox.h"
 #include "ofxFaceTracker.h"
 #include "ofxGraphViewer.h"
+#include "ofxAlphaMaskTexture.h"
+
 #include "circleUI.h"
+#include "graphUIBox.h"
+#include "robotUI.h"
 
 class ofApp : public ofBaseApp {
 public:
@@ -17,6 +20,11 @@ public:
 	ofxFaceTracker tracker;
 	ExpressionClassifier classifier;
     
+    ofxAlphaMaskTexture *alphaMask;
+    ofImage maskImg;
+    ofImage bottomImg;
+    
     graphUIBox uibox;
     circleUI eyeCircle;
+    robotUI robot;
 };
