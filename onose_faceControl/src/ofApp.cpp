@@ -7,7 +7,7 @@ void ofApp::setup() {
     ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL_BILLBOARD);
     ofSetLogLevel(OF_LOG_VERBOSE);
 	
-//    midiControl.setup();
+    midiControl.setup();
     controlMonitor.setup();
 }
 
@@ -18,7 +18,7 @@ void ofApp::update() {
 
 void ofApp::draw() {
     controlMonitor.draw();
-//    midiControl.viewIndicator();
+    midiControl.viewIndicator();
 }
 
 void ofApp::keyPressed(int key) {
@@ -27,9 +27,9 @@ void ofApp::keyPressed(int key) {
 //	}
 }
 void ofApp::mouseDragged(int x, int y, int button){
-//    midiControl.mouseDragged(x, y, button);
+    midiControl.mouseDragged(x, y, button);
 }
 
 void ofApp::exit(){
-//    midiControl.exit();
+    midiControl.exit();
 }
