@@ -30,6 +30,10 @@ void FaceTracker::update(){
     }
 }
 
+void FaceTracker::reset(){
+    tracker.reset();
+}
+
 void FaceTracker::drawCam(){
     cam.draw(conf.camWidth, 0, -conf.camWidth, conf.camHeight);
 }
