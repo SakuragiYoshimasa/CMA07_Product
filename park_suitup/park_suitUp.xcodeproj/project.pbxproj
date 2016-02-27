@@ -3654,6 +3654,70 @@
 				<key>sourceTree</key>
 				<string>SOURCE_ROOT</string>
 			</dict>
+			<key>47D98BAEE221AA400219DAD2</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.c.h</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxFboBlur.h</string>
+				<key>path</key>
+				<string>../../../addons/ofxFboBlur/src/ofxFboBlur.h</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
+			<key>8C2732A60654DCAB78485FFD</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>717FFECA4DDACD613D27B6AD</string>
+					<string>47D98BAEE221AA400219DAD2</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>src</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>7CB5F0197C6C987F1A872F06</key>
+			<dict>
+				<key>children</key>
+				<array>
+					<string>8C2732A60654DCAB78485FFD</string>
+				</array>
+				<key>isa</key>
+				<string>PBXGroup</string>
+				<key>name</key>
+				<string>ofxFboBlur</string>
+				<key>sourceTree</key>
+				<string>&lt;group&gt;</string>
+			</dict>
+			<key>3800542E2A9FC9F9F4D07001</key>
+			<dict>
+				<key>fileRef</key>
+				<string>717FFECA4DDACD613D27B6AD</string>
+				<key>isa</key>
+				<string>PBXBuildFile</string>
+			</dict>
+			<key>717FFECA4DDACD613D27B6AD</key>
+			<dict>
+				<key>explicitFileType</key>
+				<string>sourcecode.cpp.cpp</string>
+				<key>fileEncoding</key>
+				<string>30</string>
+				<key>isa</key>
+				<string>PBXFileReference</string>
+				<key>name</key>
+				<string>ofxFboBlur.cpp</string>
+				<key>path</key>
+				<string>../../../addons/ofxFboBlur/src/ofxFboBlur.cpp</string>
+				<key>sourceTree</key>
+				<string>SOURCE_ROOT</string>
+			</dict>
 			<key>E43C5A4AB73C09290F70362D</key>
 			<dict>
 				<key>fileRef</key>
@@ -5207,6 +5271,7 @@ IFS=$SAVED_IFS
 					<string>971D56683A7EFF71B133A16A</string>
 					<string>6025FAF6414C2CA589764D26</string>
 					<string>2B86176FA97BFB2BEE1F2F83</string>
+					<string>7CB5F0197C6C987F1A872F06</string>
 					<string>F45889D7D622582F64FB1E29</string>
 					<string>480A780D8D0308AE4A368801</string>
 					<string>A0B90D3B0ADB9C1716816714</string>
@@ -5381,6 +5446,7 @@ IFS=$SAVED_IFS
 						<string>../../../addons/ofxFaceTracker/libs/FaceTracker/src</string>
 						<string>../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib</string>
 						<string>../../../addons/ofxFaceTracker/src</string>
+						<string>../../../addons/ofxFboBlur/src</string>
 						<string>../../../addons/ofxGraphViewer/src</string>
 						<string>../../../addons/ofxGui/src</string>
 						<string>../../../addons/ofxOpenCv/libs</string>
@@ -5489,6 +5555,7 @@ IFS=$SAVED_IFS
 						<string>../../../addons/ofxFaceTracker/libs/FaceTracker/src</string>
 						<string>../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib</string>
 						<string>../../../addons/ofxFaceTracker/src</string>
+						<string>../../../addons/ofxFboBlur/src</string>
 						<string>../../../addons/ofxGraphViewer/src</string>
 						<string>../../../addons/ofxGui/src</string>
 						<string>../../../addons/ofxOpenCv/libs</string>
@@ -5606,6 +5673,7 @@ IFS=$SAVED_IFS
 					<string>091CD626FECB03B3A6B3A1B2</string>
 					<string>E6E21460246219EE9394310F</string>
 					<string>E43C5A4AB73C09290F70362D</string>
+					<string>3800542E2A9FC9F9F4D07001</string>
 					<string>2ED8E38C921C64619E71E781</string>
 					<string>856AA354D08AB4B323081444</string>
 					<string>5CBB2AB3A60F65431D7B555D</string>
@@ -5724,6 +5792,7 @@ IFS=$SAVED_IFS
 						<string>../../../addons/ofxFaceTracker/libs/FaceTracker/src</string>
 						<string>../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib</string>
 						<string>../../../addons/ofxFaceTracker/src</string>
+						<string>../../../addons/ofxFboBlur/src</string>
 						<string>../../../addons/ofxGraphViewer/src</string>
 						<string>../../../addons/ofxGui/src</string>
 						<string>../../../addons/ofxOpenCv/libs</string>
@@ -5822,6 +5891,7 @@ IFS=$SAVED_IFS
 						<string>../../../addons/ofxFaceTracker/libs/FaceTracker/src</string>
 						<string>../../../addons/ofxFaceTracker/libs/FaceTracker/src/lib</string>
 						<string>../../../addons/ofxFaceTracker/src</string>
+						<string>../../../addons/ofxFboBlur/src</string>
 						<string>../../../addons/ofxGraphViewer/src</string>
 						<string>../../../addons/ofxGui/src</string>
 						<string>../../../addons/ofxOpenCv/libs</string>

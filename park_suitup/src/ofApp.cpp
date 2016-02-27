@@ -5,7 +5,6 @@ using namespace cv;
 
 void ofApp::setup() {
 	ofSetVerticalSync(true);
-    ofEnableAlphaBlending();
     
     //setup Camera
 	cam.initGrabber(1280, 720);
@@ -24,13 +23,16 @@ void ofApp::setup() {
     //setup UI
     eyeCircle.init();
     
-    uibox.init(ofPoint(400,200));
-    robot.init(ofPoint(-400,200));
+    uibox_b.init(ofPoint(ofGetWidth()/2 + 100, 400),'b');
+    uibox_t.init(ofPoint(ofGetWidth()/2 + 100, 10),'t');
+    robot.init(ofPoint(20,500));
 }
 
 void ofApp::update() {
     //update UI
-    uibox.update();
+    uibox_b.update();
+    uibox_t.update();
+    robot.update();
     eyeCircle.update();
     
     //update Camera
@@ -65,13 +67,13 @@ void ofApp::update() {
         
         //control_ui_right
         if(angleFace.y < 0){
-            uibox.setModesize(1);
+            uibox_b.setModesize(1);
+            uibox_t.setModesize(1);
         }else if(angleFace.y > 0){
-            uibox.setModesize(2);
+            uibox_b.setModesize(2);
+            uibox_t.setModesize(2);
         }
     }
-    
-    
 }
 
 void ofApp::draw() {
@@ -79,8 +81,8 @@ void ofApp::draw() {
     
 //    cam.draw(cam.getWidth(), 0, -cam.getWidth(), cam.getHeight());
     
-    ofPushMatrix();
     ofPushStyle();
+    ofPushMatrix();
     
     ofScale(-1,1);
     ofTranslate(-cam.getWidth(),0);
@@ -117,11 +119,12 @@ void ofApp::draw() {
         //draw stand UI
         ofPushStyle();
         ofPushMatrix();
-
-        ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
         
-        //right_bottom_lineGraph
-        uibox.draw();
+//        ofTranslate(ofGetWidth()/2, 0);
+        
+        //lineGraph
+        uibox_b.draw();
+        uibox_t.draw();
         robot.draw();
 
         ofPopMatrix();

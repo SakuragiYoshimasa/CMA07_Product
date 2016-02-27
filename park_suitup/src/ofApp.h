@@ -5,6 +5,7 @@
 #include "ofxGraphViewer.h"
 #include "ofxAlphaMaskTexture.h"
 
+
 #include "circleUI.h"
 #include "graphUIBox.h"
 #include "robotUI.h"
@@ -24,7 +25,8 @@ public:
     ofImage maskImg;
     ofImage bottomImg;
     
-    graphUIBox uibox;
+    graphUIBox uibox_b;
+    graphUIBox uibox_t;
     circleUI eyeCircle;
     robotUI robot;
 };
