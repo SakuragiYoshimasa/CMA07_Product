@@ -6,20 +6,23 @@ void ofApp::setup() {
 	ofSetVerticalSync(true);
     ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL_BILLBOARD);
     ofSetLogLevel(OF_LOG_VERBOSE);
-	
+    
     midiControl.setup();
+    faceTracker.setup();
     controlMonitor.setup();
 }
 
 
 void ofApp::update() {
-    controlMonitor.update();
     midiControl.update();
-//    midiControl.controlWave(16, 0.01);
+    faceTracker.update();
+    controlMonitor.update();
+    
+    midiControl.faceOriControl(faceTracker);
 }
 
 void ofApp::draw() {
-    controlMonitor.draw();
+    controlMonitor.draw(faceTracker);
     midiControl.viewIndicator();
 }
 
@@ -30,7 +33,6 @@ void ofApp::keyPressed(int key) {
 //            midiControl.controlWave(16, 0.01);
             break;
         case 'r':
-            faceTracker.reset();
             break;
         default:
             break;

@@ -13,18 +13,17 @@ ControlMonitor::ControlMonitor(){
 }
 
 void ControlMonitor::setup(){
-    faceTracker.setup();
 }
 
 void ControlMonitor::update(){
-    faceTracker.update();
+    
 }
 
-void ControlMonitor::draw(){
+void ControlMonitor::draw(FaceTracker& faceTracker){
     ofSetColor(255);
     faceTracker.drawCam();
     ofDrawBitmapString("FPS: " + ofToString((int) ofGetFrameRate()), 10, 20);
-    faceTracker.drawTracker();
+//    faceTracker.drawTracker();
     
     // easyCam.begin();
     ofSetupScreenOrtho(conf.camWidth, conf.camHeight, -1000, 1000);
@@ -33,21 +32,21 @@ void ControlMonitor::draw(){
     ofPushMatrix();
     applyMatrix(faceTracker.rotationMatrix);
     ofScale(5,5,5);
-    if(faceTracker.getFound()){
-        ofSetColor(255, 0, 0);
-    }
-    drawControlCircle();
+    drawControlCircle(faceTracker);
     ofPopMatrix();
     // easyCam.end();
 }
 
-void ControlMonitor::drawControlCircle(){
+void ControlMonitor::drawControlCircle(FaceTracker& faceTracker){
     ofNoFill();
-    ofCircle(0, 0, 0, 30);
-    if(faceTracker.getMouseOpend()){
-        centerSphere.set(10, 10);
-        centerSphere.drawWireframe();
+    if(faceTracker.getFound()){
+        ofSetColor(255, 0, 0);
     }
+    ofCircle(0, 0, 0, 30);
+//    if(faceTracker.getMouseOpend()){
+//        centerSphere.set(10, 10);
+//        centerSphere.drawWireframe();
+//    }
     ofFill();
     ofRect(30, -6, (faceTracker.orientation.x * 50), 4);
     ofRect(30, -2, (faceTracker.orientation.y * 50), 4);

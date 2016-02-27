@@ -22,7 +22,7 @@ void MidiControl::setup(){
     //midiOut.openPort("IAC Driver Pure Data In"); // by name
     //midiOut.openVirtualPort("o//); // open a virtual port
     
-    channel = 2;
+    channel = conf.channel;
     currentPgm = 0;
     note = 0;
     velocity = 0;
@@ -31,18 +31,10 @@ void MidiControl::setup(){
     touch = 0;
     polytouch = 0;
     
-    faceTracker.setup();
 }
 
 void MidiControl::update(){
-    faceTracker.update();
-    float value = ofMap(faceTracker.orientation.x,
-                        -0.4, 0.4, 0.0, 127.0);
-    midiOut.sendControlChange(channel, 16, value);
-    
-    value = ofMap(faceTracker.orientation.z,
-                        -0.4, 0.4, 0.0, 127.0);
-    midiOut.sendControlChange(channel, 17, value);
+
     time += 1;
 }
 
@@ -62,9 +54,6 @@ void MidiControl::viewIndicator(){
     << "touch: " << touch << endl
     << "polytouch: " << polytouch;
     ofDrawBitmapString(text.str(), 20, 20);
-    
-    ofDrawBitmapString(ofToString(ofMap(faceTracker.orientation.x, -0.4, 0.4, 0.0, 127.0)), 20, 0);
-    ofDrawBitmapString(ofToString(ofMap(faceTracker.orientation.z, -0.4, 0.4, 0.0, 127.0)), 80, 0);
 }
 
 void MidiControl::exit(){
@@ -86,4 +75,19 @@ void MidiControl::controlWave(int control, float t){
     pan = 64 + 63 * sin(time * t);
     midiOut.sendControlChange(channel, control, pan);
 }
+
+void MidiControl::sendControlChange(int control, float value, float valMin, float valMax){
+    float controlValue = ofMap(value, valMin, valMax, 0, 127);
+    midiOut.sendControlChange(channel, control, controlValue);
+}
+
+void MidiControl::faceOriControl(FaceTracker& faceTracker){
+    sendControlChange(16, faceTracker.orientation.x,
+                      -conf.faceOriXThreshold, conf.faceOriXThreshold);
+    sendControlChange(17, faceTracker.orientation.y,
+                      -conf.faceOriYThreshold, conf.faceOriYThreshold);
+    sendControlChange(18, faceTracker.orientation.z,
+                      -conf.faceOriZThreshold, conf.faceOriZThreshold);
+}
+
 

@@ -23,9 +23,9 @@ public:
 	
     MidiControl midiControl;
     ControlMonitor controlMonitor;
-    FaceTracker faceTracker;
     
     
     ofxMidiOut midiOut;
+    FaceTracker faceTracker;
     
 };

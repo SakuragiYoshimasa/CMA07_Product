@@ -22,13 +22,12 @@ class ControlMonitor{
 public:
     void setup();
     void update();
-    void draw();
-    void drawControlCircle();
+    void draw(FaceTracker& faceTracker);
+    void drawControlCircle(FaceTracker& faceTracker);
     
     ControlMonitor();
     ~ControlMonitor(){};
     
-    FaceTracker faceTracker;
     Config conf;
     
     ofMatrix4x4 rotationMatrix;
