@@ -2,6 +2,7 @@
 #include "ofMain.h"
 #include "ofxOpenNI.h"
 #include "Drop.hpp"
+#include "Bounce.hpp"
 
 class ofApp : public ofBaseApp{
     
@@ -23,7 +24,14 @@ public:
     void windowResized(int w, int h);
     
     Limb need_limb_id[6] = {LIMB_LEFT_LOWER_ARM,LIMB_LEFT_UPPER_ARM,LIMB_RIGHT_LOWER_ARM,LIMB_RIGHT_UPPER_ARM,LIMB_RIGHT_SHOULDER,LIMB_LEFT_SHOULDER};
+  //  Joint JOINT_HEAD;
     
     vector<Drop> rain;
+    deque<Bounce> bounces;
+    ofSoundPlayer soundplayer;
+    float *volume;
+    float Ratio = 1.6; //screenの倍率
+    ofColor jointHue;
+    
 };
 

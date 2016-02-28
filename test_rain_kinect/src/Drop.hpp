@@ -10,6 +10,7 @@
 #define Drop_hpp
 
 #include <stdio.h>
+#include "ofMain.h"
 
 class Drop {
     
@@ -19,10 +20,13 @@ public:
     float rainY1;
     float rainY2;
     float speed_y;
+    float linewidth;
     
     Drop();
     void update();
     void draw();
+    
+    ofColor rainHue;
     
 };
 

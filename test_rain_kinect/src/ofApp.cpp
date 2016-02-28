@@ -4,7 +4,7 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
     
-    ofSetWindowShape(ofGetWidth(), ofGetHeight());
+    //ofSetWindowShape(ofGetWidth(), ofGetHeight());
     
     //  setup ofxOpenNI
     kinect.setup();
@@ -14,23 +14,28 @@ void ofApp::setup() {
     kinect.addDepthGenerator();     //  required for depth image
     kinect.addUserGenerator();      //  required for skeleton tracking
     kinect.setMaxNumUsers(1);       //  max num of skeleton to track
-    
+    kinect.setResolution(ofGetWidth(), ofGetHeight(), 30); //Kinectの描画を大きくする（？）
     
     //  start kinect
     kinect.start();
     
-    //raintestよりペースト
-    
     ofBackground(0,0,0);
     ofEnableAlphaBlending();
     ofSetFrameRate(30);
-    ofSetLineWidth(ofRandom(1.0,3.0));
+    ofSetLineWidth(Drop().linewidth);
+    ofSetCircleResolution(64);
+    
+    soundplayer.loadSound("Problem - Pentatonix.mp3");
+    soundplayer.setLoop(false);
+    soundplayer.setVolume(1.0);
+    soundplayer.play();
     
     
-    for (int i=0 ;i<100; i++) {
+    for (int i=0 ;i<500; i++) {
         rain.push_back(*new Drop());
     }
     
+    jointHue.setHsb(55*2.25, 255, 255, 255);
 }
 
 //--------------------------------------------------------------
@@ -38,8 +43,7 @@ void ofApp::update(){
     
     kinect.update();
     
-    
-///////わからない場所/////////////////////////////////////////////////////////////////////////
+    //Drop
     for(int i=0; i < rain.size(); i++){
         rain[i].update();
     
@@ -57,12 +61,12 @@ void ofApp::update(){
                     float y2 = limb.getEndJoint().getProjectivePosition().y;
                 
                 //rainXがlimbの範囲内にあるかどうか
-                if ( (rain[i].rainX > x1  && rain[i].rainX < x2) || (rain[i].rainX > x2  && rain[i].rainX < x1)) {
+                if ( (rain[i].rainX > x1*Ratio  && rain[i].rainX < x2*Ratio ) || (rain[i].rainX > x2*Ratio   && rain[i].rainX < x1*Ratio )) {
                 
                 
                 //rainY2がlimbの座標にあるかどうか
-                if ((rain[i].rainY2 < (ofMap ( rain[i].rainX, x1, x2, y1, y2 ))+20)
-                    && rain[i].rainY2 > (ofMap ( rain[i].rainX, x1, x2, y1, y2 ))-20){
+                if ((rain[i].rainY2 < (ofMap ( rain[i].rainX, x1*Ratio , x2*Ratio , y1*Ratio , y2*Ratio  ))+20)
+                    && rain[i].rainY2 > (ofMap ( rain[i].rainX, x1*Ratio , x2*Ratio , y1*Ratio , y2*Ratio  ))-20){
     
                     rain[i].rainY1 = -100.0;
                     rain[i].rainY2 = rain[i].rainY1 + ofRandom(10.0, 100.0);
@@ -72,50 +76,98 @@ void ofApp::update(){
         }
     }
 }
+    //Bounce
+    volume = ofSoundGetSpectrum(1);
+    if (volume[0] > 0.045) {
+        bounces.push_back(*new Bounce());
+    }
+    
+    for(int i=0; i < bounces.size(); i++){
+        bounces[i].update();
+        if(bounces[i].time > bounces[i].lifetime){
+            bounces.pop_front();
+        }
+    }
 }
-///////////////////////////////////////////////////////////////////////////////////////////
+
 
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    
     //  draw RGB image (weak)
-    ofSetColor(100, 100, 100);
+    ofSetColor(0, 0, 0);
     kinect.drawImage(0, 0, ofGetWidth(), ofGetHeight());
     
     //  normal color
     ofSetColor(255, 255, 255);
     
     //  draw user
-    
     for(int i=0; i < rain.size(); i++){
         rain[i].draw();
     }
-    
-    
     if (kinect.getNumTrackedUsers() > 0) {
-        
         //  skeleton data
         ofxOpenNIUser user = kinect.getTrackedUser(0);
         
         //  draw two arms
         ofSetLineWidth(5);
         ofSetColor(255, 255, 255);
-        for (int i = 0; i < 6; i++) {
-            ofxOpenNILimb limb = user.getLimb(need_limb_id[i]);
+        
+        
+/*腕のみの描画    
+                for (int i = 0; i < 6; i++) {
+                    ofxOpenNILimb limb = user.getLimb(need_limb_id[i]);
+                    if (limb.isFound()) {
+                        float x1 = limb.getStartJoint().getProjectivePosition().x;
+                        float y1 = limb.getStartJoint().getProjectivePosition().y;
+                        float x2 = limb.getEndJoint().getProjectivePosition().x;
+                        float y2 = limb.getEndJoint().getProjectivePosition().y;
+                        ofLine(x1*Ratio , y1*Ratio , x2*Ratio , y2*Ratio );
+                    }
+                }*/
+        
+        
+        for (int i = 0; i < user.getNumLimbs(); i++) {
+            ofxOpenNILimb limb = user.getLimb((enum Limb) i);
             if (limb.isFound()) {
                 float x1 = limb.getStartJoint().getProjectivePosition().x;
                 float y1 = limb.getStartJoint().getProjectivePosition().y;
                 float x2 = limb.getEndJoint().getProjectivePosition().x;
                 float y2 = limb.getEndJoint().getProjectivePosition().y;
-                ofLine(x1, y1, x2, y2);
+                ofLine(x1*Ratio, y1*Ratio, x2*Ratio, y2*Ratio);
+                
+                
+                
+                
             }
         }
+        
+        //  draw joints
+        ofSetColor(jointHue);
+        for (int i = 0; i < user.getNumJoints(); i++) {
+            ofxOpenNIJoint joint = user.getJoint((enum Joint) i);
+            if (joint.isFound()) {
+                float x = joint.getProjectivePosition().x;
+                float y = joint.getProjectivePosition().y;
+                ofCircle(x*Ratio, y*Ratio, 20);
+            }
+        }
+        
+        ofSetColor(jointHue);
+        ofxOpenNIJoint joint = user.getJoint(JOINT_HEAD);
+        if (joint.isFound()) {
+            float head_x = joint.getProjectivePosition().x;
+            float head_y = joint.getProjectivePosition().y;
+            ofCircle(head_x*Ratio, head_y*Ratio, 35);
+        }
+    }
+    for(int i=0; i < bounces.size(); i++){
+        bounces[i].draw();
     }
 }
 //--------------------------------------------------------------
 void ofApp::exit(){
-    
+    kinect.stop();
 }
 
 //--------------------------------------------------------------

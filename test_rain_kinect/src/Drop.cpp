@@ -15,6 +15,19 @@ Drop::Drop(){
     rainY1 = ofRandom(-ofGetHeight(),-100.0);
     rainY2 = rainY1 + ofRandom(10.0, 100.0);
     speed_y =  ofRandom(10.0, 30.0);
+    linewidth = ofRandom(ofRandom(0.1,2.0));
+    
+    switch (int(ofRandom(3))) {
+        case 0:
+            rainHue.setHsb(50*2.25, 255, 255, ofRandom(100,255));
+            break;
+        case 1:
+            rainHue.setHsb(55*2.25, 255, 255, ofRandom(100,255));
+            break;
+        case 2:
+            rainHue.setHsb(60*2.25, 255, 255, ofRandom(100,255));
+            break;
+    }
 }
 
 void Drop::update(){
@@ -29,8 +42,12 @@ void Drop::update(){
 }
 
 void Drop::draw(){
-    
-    ofSetColor(ofRandom(255), ofRandom(255) ,ofRandom(255));
+    ofPushStyle();
+
+    ofSetLineWidth(linewidth);
+    //ofSetColor(ofRandom(255), ofRandom(255) ,ofRandom(255));
+    ofSetColor(rainHue);
     ofLine(rainX, rainY1, rainX, rainY2);
     
+    ofPopStyle();
 }
