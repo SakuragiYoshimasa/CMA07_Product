@@ -15,7 +15,7 @@
 #include "FaceTracker.h"
 #include "Config.h"
 
-#define BUFSIZE 64
+#define BUFSIZE 128
 
 using namespace ofxCv;
 using namespace cv;
@@ -26,11 +26,12 @@ public:
     void update();
     void draw(FaceTracker& faceTracker);
     void drawControlCircle(FaceTracker& faceTracker);
-    void drawSoundWaveCircle();
+    void drawSoundWaveCircle(FaceTracker& faceTracker);
     
     ControlMonitor();
     ~ControlMonitor(){};
     
+//    FaceTracker faceTracker;
     Config conf;
     
     ofMatrix4x4 rotationMatrix;
@@ -38,6 +39,7 @@ public:
     
     float buffer[BUFSIZE];
     int bufferSize;
+    int time;
 };
 
 #endif /* ControlMonitor_h */

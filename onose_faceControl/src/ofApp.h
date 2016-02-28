@@ -7,8 +7,6 @@
 #include "MidiControl.h"
 #include "FaceTracker.h"
 
-#define BUFSIZE 64
-
 using namespace ofxCv;
 using namespace cv;
 
@@ -32,8 +30,6 @@ public:
     // Sound
     ofSoundPlayer mySound;
     ofSoundStream soundStream;
-    int bufferSize;
     float * fft;           //FFT解析結果を格納する配列
     int nBandsToGet;       //FFT解析の分解精度
-    float buffer[BUFSIZE];
 };

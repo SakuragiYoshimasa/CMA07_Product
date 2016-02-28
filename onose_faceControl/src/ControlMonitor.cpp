@@ -16,10 +16,11 @@ void ControlMonitor::setup(){
 }
 
 void ControlMonitor::update(){
-    
+    time += 1;
 }
 
 void ControlMonitor::draw(FaceTracker& faceTracker){
+//    faceTracker = faceTrackerRef;
     ofSetColor(255);
     faceTracker.drawCam();
     ofDrawBitmapString("FPS: " + ofToString((int) ofGetFrameRate()), 10, 20);
@@ -36,7 +37,9 @@ void ControlMonitor::draw(FaceTracker& faceTracker){
     // 顔の距離に合わせて大きさを変更
     ofScale(faceTracker.scale, faceTracker.scale, faceTracker.scale);
     // コントロールサークルを描画
-    drawControlCircle(faceTracker);
+    if (faceTracker.getFound()) {
+        drawControlCircle(faceTracker);
+    }
     ofPopMatrix();
     // easyCam.end();
 }
@@ -48,7 +51,6 @@ void ControlMonitor::drawControlCircle(FaceTracker& faceTracker){
         hue.setHsb(ofMap(faceTracker.orientation.z, -conf.faceOriZThreshold, conf.faceOriZThreshold, 0, 360), 255, 255);
         ofSetColor(hue);
     }
-    ofCircle(0, 0, 0, 30);
 //    if(faceTracker.getMouseOpend()){
 //        centerSphere.set(10, 10);
 //        centerSphere.drawWireframe();
@@ -64,17 +66,37 @@ void ControlMonitor::drawControlCircle(FaceTracker& faceTracker){
 //    ofDrawBitmapString("z: " + ofToString(faceTracker.orientation.z), 20, 32);
 //    ofDrawBitmapString("mouth: " + ofToString(faceTracker.getGesture(ofxFaceTracker::MOUTH_HEIGHT)), 20, 38);
     
-    drawSoundWaveCircle();
+    drawSoundWaveCircle(faceTracker);
     
 }
 
-void ControlMonitor::drawSoundWaveCircle(){
-    for (int i = 0; i < bufferSize; i++) {
-        int dy = buffer[i] * 20;
-        ofSetLineWidth(2);
-        ofLine(-i, 10, -i, 10 - dy);
-    }
+void ControlMonitor::drawSoundWaveCircle(FaceTracker& faceTracker){
+    float r = 45.0;
+    float w = 0.5;
+    float barBase = 3.0;
+    float barMult = 7.0;
+    float barRotateSpeed = 0.1;
+    ofFill();
+    ofSetColor(0, 255, 255);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     
+    ofPushMatrix();
+    
+    ofRotateZ(time * barRotateSpeed);
+    for (int i = 0; i < bufferSize; i++) {
+        ofRotateZ(360.0 / bufferSize);
+        // 線の長さ
+        float l = barBase + buffer[i] * barMult;
+        ofRect(-(w / 2.0), r - (l / 2.0), w, l);
+    }
+    ofSetColor(255, 0, 0);
+    ofNoFill();
+    ofSetLineWidth(2);
+    
+    ofCircle(0, 0, r * 0.8);
+    
+    ofPopMatrix();
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 
