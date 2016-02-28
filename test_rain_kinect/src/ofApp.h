@@ -28,10 +28,18 @@ public:
     
     vector<Drop> rain;
     deque<Bounce> bounces;
+    
     ofSoundPlayer soundplayer;
+    ofColor jointHue;
+    ofColor betweenJointHue;
+    ofVec2f circlePosition[100];
+    
+    float limbVector[10]; //joint間の円の位置
+    float rotateVector[10]; //joint間の円の幅
+    
     float *volume;
     float Ratio = 1.6; //screenの倍率
-    ofColor jointHue;
+    
     
 };
 

@@ -1,6 +1,8 @@
 #include "ofApp.h"
 #include "Drop.hpp"
 
+ofFbo fbo;
+
 //--------------------------------------------------------------
 void ofApp::setup() {
     
@@ -35,7 +37,31 @@ void ofApp::setup() {
         rain.push_back(*new Drop());
     }
     
+    for (int j=0; j<10; j++){
+        limbVector[j] = ofRandom(0,1.0);
+        rotateVector[j] = ofRandom(-0.3,0.3);
+    }
+    
     jointHue.setHsb(55*2.25, 255, 255, 255);
+    switch (int(ofRandom(3))) {
+        case 0:
+            betweenJointHue.setHsb(50*2.25, 255, 255, ofRandom(100,255));
+            break;
+        case 1:
+            betweenJointHue.setHsb(55*2.25, 255, 255, ofRandom(100,255));
+            break;
+        case 2:
+            betweenJointHue.setHsb(60*2.25, 255, 255, ofRandom(100,255));
+            break;
+    }
+    
+    fbo.allocate(ofGetWidth(), ofGetHeight());
+    fbo.begin();
+    ofSetBackgroundAuto(false);
+    ofEnableSmoothing();
+    fbo.end();
+    
+    ofSetBackgroundAuto(true);
 }
 
 //--------------------------------------------------------------
@@ -86,25 +112,20 @@ void ofApp::update(){
         bounces[i].update();
         if(bounces[i].time > bounces[i].lifetime){
             bounces.pop_front();
-        }
+       }
     }
-}
-
-
-//--------------------------------------------------------------
-void ofApp::draw(){
     
-    //  draw RGB image (weak)
-    ofSetColor(0, 0, 0);
-    kinect.drawImage(0, 0, ofGetWidth(), ofGetHeight());
     
-    //  normal color
-    ofSetColor(255, 255, 255);
+    //--------------------
+    //Draw on FBO
+    //---------------------
+    fbo.allocate(ofGetWidth(), ofGetHeight());
     
-    //  draw user
-    for(int i=0; i < rain.size(); i++){
-        rain[i].draw();
-    }
+    fbo.begin();
+    ofPushStyle();
+    ofSetColor(0, 0, 0, 10);
+    ofRect(0,0,ofGetWidth(), ofGetHeight());
+    ofPopStyle();
     if (kinect.getNumTrackedUsers() > 0) {
         //  skeleton data
         ofxOpenNIUser user = kinect.getTrackedUser(0);
@@ -114,53 +135,89 @@ void ofApp::draw(){
         ofSetColor(255, 255, 255);
         
         
-/*腕のみの描画    
-                for (int i = 0; i < 6; i++) {
-                    ofxOpenNILimb limb = user.getLimb(need_limb_id[i]);
-                    if (limb.isFound()) {
-                        float x1 = limb.getStartJoint().getProjectivePosition().x;
-                        float y1 = limb.getStartJoint().getProjectivePosition().y;
-                        float x2 = limb.getEndJoint().getProjectivePosition().x;
-                        float y2 = limb.getEndJoint().getProjectivePosition().y;
-                        ofLine(x1*Ratio , y1*Ratio , x2*Ratio , y2*Ratio );
-                    }
-                }*/
+        /*腕のみの描画
+         for (int i = 0; i < 6; i++) {
+         ofxOpenNILimb limb = user.getLimb(need_limb_id[i]);
+         if (limb.isFound()) {
+         float x1 = limb.getStartJoint().getProjectivePosition().x;
+         float y1 = limb.getStartJoint().getProjectivePosition().y;
+         float x2 = limb.getEndJoint().getProjectivePosition().x;
+         float y2 = limb.getEndJoint().getProjectivePosition().y;
+         ofLine(x1*Ratio , y1*Ratio , x2*Ratio , y2*Ratio );
+         }
+         }*/
         
         
         for (int i = 0; i < user.getNumLimbs(); i++) {
             ofxOpenNILimb limb = user.getLimb((enum Limb) i);
             if (limb.isFound()) {
-                float x1 = limb.getStartJoint().getProjectivePosition().x;
-                float y1 = limb.getStartJoint().getProjectivePosition().y;
-                float x2 = limb.getEndJoint().getProjectivePosition().x;
-                float y2 = limb.getEndJoint().getProjectivePosition().y;
-                ofLine(x1*Ratio, y1*Ratio, x2*Ratio, y2*Ratio);
                 
+                ofPoint p1 = limb.getStartJoint().getProjectivePosition();
+                ofPoint p2 = limb.getEndJoint().getProjectivePosition();
+                p1 = ofPoint(p1.x*Ratio, p1.y*Ratio, 0) ;
+                p2 = ofPoint(p2.x*Ratio, p2.y*Ratio, 0);
                 
+                /*                float x1 = limb.getStartJoint().getProjectivePosition().x;
+                 float y1 = limb.getStartJoint().getProjectivePosition().y;
+                 float x2 = limb.getEndJoint().getProjectivePosition().x;
+                 float y2 = limb.getEndJoint().getProjectivePosition().y;
+                 ofLine(x1*Ratio, y1*Ratio, x2*Ratio, y2*Ratio);*/
+                ofLine(p1,p2);
                 
-                
+                for (int j = 0; j < 10; j++) {
+                    circlePosition[j] = p2 - p1;
+                    ofSetColor(betweenJointHue);
+                    ofCircle(p1+circlePosition[j] * limbVector[j] + circlePosition[j].rotated(90) * rotateVector[j],10);
+                }
             }
-        }
-        
-        //  draw joints
-        ofSetColor(jointHue);
-        for (int i = 0; i < user.getNumJoints(); i++) {
-            ofxOpenNIJoint joint = user.getJoint((enum Joint) i);
+            
+            //  draw joints
+            ofSetColor(jointHue);
+            for (int i = 0; i < user.getNumJoints(); i++) {
+                ofxOpenNIJoint joint = user.getJoint((enum Joint) i);
+                if (joint.isFound()) {
+                    float x = joint.getProjectivePosition().x;
+                    float y = joint.getProjectivePosition().y;
+                    ofCircle(x*Ratio, y*Ratio, 30);
+                }
+            }
+            
+            ofSetColor(jointHue);
+            ofxOpenNIJoint joint = user.getJoint(JOINT_HEAD);
             if (joint.isFound()) {
-                float x = joint.getProjectivePosition().x;
-                float y = joint.getProjectivePosition().y;
-                ofCircle(x*Ratio, y*Ratio, 20);
+                float head_x = joint.getProjectivePosition().x;
+                float head_y = joint.getProjectivePosition().y;
+                ofCircle(head_x*Ratio, head_y*Ratio, 45);
             }
         }
         
-        ofSetColor(jointHue);
-        ofxOpenNIJoint joint = user.getJoint(JOINT_HEAD);
-        if (joint.isFound()) {
-            float head_x = joint.getProjectivePosition().x;
-            float head_y = joint.getProjectivePosition().y;
-            ofCircle(head_x*Ratio, head_y*Ratio, 35);
-        }
     }
+    
+    fbo.end();
+}
+
+
+//--------------------------------------------------------------
+void ofApp::draw(){
+    
+    //  draw RGB image (weak)
+    /*ofSetColor(0, 0, 0);
+    kinect.drawImage(0, 0, ofGetWidth(), ofGetHeight());*/
+    
+
+    
+    //  normal color
+    ofSetColor(255, 255, 255);
+    fbo.draw(0,0);
+    
+    //  draw user
+    for(int i=0; i < rain.size(); i++){
+        rain[i].draw();
+    }
+    
+
+    
+    
     for(int i=0; i < bounces.size(); i++){
         bounces[i].draw();
     }
