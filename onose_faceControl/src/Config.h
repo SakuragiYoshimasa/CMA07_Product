@@ -20,6 +20,11 @@ public:
     const int camHeight = 480;
     
     const float mouseOpenedHeightThreshold = 3.0;
+    const float faceOriXThreshold = 0.5;
+    const float faceOriYThreshold = 0.5;
+    const float faceOriZThreshold = 0.5;
+    
+    const int channel = 2;
     
 };
 
