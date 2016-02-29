@@ -6,6 +6,12 @@ using namespace cv;
 void ofApp::setup() {
 	ofSetVerticalSync(true);
     
+    //setupSound
+    bgmPlayer.load("sound/ironmanBGM.mp3");
+    bgmPlayer.setLoop(true);
+    bgmPlayer.setVolume(1.0);
+    bgmPlayer.play();
+    
     //setup Camera
 	cam.initGrabber(1280, 720);
     
@@ -29,11 +35,17 @@ void ofApp::setup() {
 }
 
 void ofApp::update() {
+    //updateSpectrumBar
+    for(int i = 0 ; i < NUM_SPECTRUM ; i++){
+        float * volume = ofSoundGetSpectrum(i+1);
+        size_spect[i] = volume[0] * 1300;
+    }
+    
     //update UI
     uibox_b.update();
     uibox_t.update();
     robot.update();
-    eyeCircle.update();
+    eyeCircle.update(size_spect);
     
     //update Camera
 	cam.update();
@@ -94,7 +106,6 @@ void ofApp::draw() {
     if(tracker.getHaarFound()){
         
         if(tracker.getImagePoint(42) != tracker.getImagePoint(45)){
-            
             //draw movalbe UI
             ofPushStyle();
             ofPushMatrix();
@@ -114,8 +125,6 @@ void ofApp::draw() {
             ofPopMatrix();
             ofPopStyle();
         }
-
-        
         //draw stand UI
         ofPushStyle();
         ofPushMatrix();

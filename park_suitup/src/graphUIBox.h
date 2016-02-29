@@ -2,6 +2,10 @@
 #include "ofxGraphViewer.h"
 #include "ofxFboBlur.h"
 
+#include "ofxAnimatableFloat.h"
+#include "ofxAnimatableOfPoint.h"
+#include "ofxAnimatableOfColor.h"
+
 #pragma once
 
 #define GRAPHUI_MIN_SIZE 150
@@ -28,7 +32,6 @@ public:
     
     ofxGraphViewer gViewer;
     int d;
-//    float d ;
     
     ofxFboBlur gpuBlur;
 };

@@ -1,6 +1,8 @@
 #include "graphUIBox.h"
 
 
+
+
 void graphUIBox::init(ofPoint pos_, char mode_pos_){
     pos = pos_;
     mode_pos = mode_pos_;
@@ -60,10 +62,8 @@ void graphUIBox::update(){
     gViewer.setSize(size_box * 1.5, size_box);
     
     //update blur
-    gpuBlur.blurOffset = 100 * ofMap(ofGetMouseY(), 0, ofGetHeight(), 1, 0, true);
-    //gpuBlur.blurOffset = 15;
-    gpuBlur.blurPasses = 50 * ofMap(ofGetMouseX(), 0, ofGetWidth(), 0, 1, true);
-    //gpuBlur.blurPasses = 1;
+    gpuBlur.blurOffset = 100 * ofMap(size_box, GRAPHUI_MIN_SIZE, GRAPHUI_MAX_SIZE, 0.5, 0, true);
+    gpuBlur.blurPasses = 50 * ofMap(size_box, GRAPHUI_MIN_SIZE, GRAPHUI_MAX_SIZE, 0, 0.5, true);
     gpuBlur.numBlurOverlays = 1;
     gpuBlur.blurOverlayGain = 255;
 }
