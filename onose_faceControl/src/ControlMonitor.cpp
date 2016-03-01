@@ -38,7 +38,9 @@ void ControlMonitor::draw(FaceTracker& faceTracker){
     ofScale(faceTracker.scale, faceTracker.scale, faceTracker.scale);
     // コントロールサークルを描画
     if (faceTracker.getFound()) {
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
         drawControlCircle(faceTracker);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
     ofPopMatrix();
     // easyCam.end();
@@ -66,37 +68,93 @@ void ControlMonitor::drawControlCircle(FaceTracker& faceTracker){
 //    ofDrawBitmapString("z: " + ofToString(faceTracker.orientation.z), 20, 32);
 //    ofDrawBitmapString("mouth: " + ofToString(faceTracker.getGesture(ofxFaceTracker::MOUTH_HEIGHT)), 20, 38);
     
+    ofTranslate(0, 0, 5);
     drawSoundWaveCircle(faceTracker);
+    ofTranslate(0, 0, -15);
+    drawCircleMonitor(ofMap(faceTracker.orientation.z, -conf.faceOriZThreshold, conf.faceOriZThreshold, -180, 180), "Z");
+    drawCrescentMonitor(ofMap(faceTracker.orientation.x, -conf.faceOriXThreshold, conf.faceOriXThreshold, -180, 180), "X");
+    ofRotate(-90);
+    drawCrescentMonitor(ofMap(faceTracker.orientation.y, -conf.faceOriYThreshold, conf.faceOriYThreshold, 180, -180), "Y");
+}
+
+void ControlMonitor::drawCrescentMonitor(float angle, string label){
+    float r = 40.0;
+    float w = 2.0;
+    float l = 3.0;
+    float crescentDeg = 60;
+    int numBin = 16;
     
+    ofPushMatrix();
+    ofRotate(-crescentDeg / 2.0);
+    ofSetColor(255);
+    ofDrawBitmapString(label, r, 0);
+    ofSetColor(255, 0, 0);
+    for (int i = 0; i < numBin; i++) {
+        ofRotate(crescentDeg / numBin);
+        int idx = ofMap(angle, -180, 180, 0, numBin);
+        if(i < numBin/2 && i > idx){
+            ofFill();
+        }else if(i > numBin/2 && i < idx){
+            ofFill();
+        }else{
+            ofNoFill();
+        }
+        ofRect(r - w/2.0, -l/2.0, l, w);
+    }
+    
+    ofPopMatrix();
+}
+
+void ControlMonitor::drawCircleMonitor(float angle, string label){
+    float r = 45.0;
+    float l = 2.0;
+    float w = 5.0;
+    
+    ofPushMatrix();
+    ofRotate(-90);
+    ofSetColor(255);
+    ofDrawBitmapString(label, r, 0);
+    ofSetColor(255, 0, 0);
+    ofFill();
+    for (int i = 0; i < 360; i++) {
+        ofRotateZ(1);
+        if(i < angle && angle > 0){
+            ofRect(r - w/2.0, -l/2.0, l, w);
+        }if(i > angle+360 && angle < 0){
+            ofRect(r - w/2.0, -l/2.0, l, w);
+        }else{
+            ofRect(r - w/2.0, -l/6.0, l/3.0, w);
+        }
+        
+    }
+    ofPopMatrix();
 }
 
 void ControlMonitor::drawSoundWaveCircle(FaceTracker& faceTracker){
     float r = 45.0;
     float w = 0.5;
     float barBase = 3.0;
-    float barMult = 7.0;
+    float barMult = 5.0;
     float barRotateSpeed = 0.1;
-    ofFill();
-    ofSetColor(0, 255, 255);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     
     ofPushMatrix();
-    
+    // 少しずつ回転
     ofRotateZ(time * barRotateSpeed);
+    ofFill();
     for (int i = 0; i < bufferSize; i++) {
+        //
         ofRotateZ(360.0 / bufferSize);
-        // 線の長さ
+        // 音域を印字
+        ofSetColor(255);
+        if(i == bufferSize*1/9) ofDrawBitmapString("LOW", r + barMult, 0);
+        if(i == bufferSize/2) ofDrawBitmapString("MID", r + barMult, 0);
+        if(i == bufferSize*8/9) ofDrawBitmapString("HIGH", r + barMult, 0);
+        // 音の可視化
+        ofSetColor(0, 255, 255);
         float l = barBase + buffer[i] * barMult;
-        ofRect(-(w / 2.0), r - (l / 2.0), w, l);
+        ofRect(-(w / 2.0), r, w, l);
     }
-    ofSetColor(255, 0, 0);
-    ofNoFill();
-    ofSetLineWidth(2);
-    
-    ofCircle(0, 0, r * 0.8);
-    
     ofPopMatrix();
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 

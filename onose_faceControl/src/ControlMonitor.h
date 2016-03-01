@@ -27,6 +27,8 @@ public:
     void draw(FaceTracker& faceTracker);
     void drawControlCircle(FaceTracker& faceTracker);
     void drawSoundWaveCircle(FaceTracker& faceTracker);
+    void drawCircleMonitor(float angle, string label);
+    void drawCrescentMonitor(float angle, string label);
     
     ControlMonitor();
     ~ControlMonitor(){};
