@@ -8,8 +8,15 @@
 #include "circleUI.h"
 #include "graphUIBox.h"
 #include "robotUI.h"
+#include "particleScene.h"
 
 #define NUM_SPECTRUM 5
+
+enum sceneMode{
+    APP_START,
+    IN_SUIT_SCENE,
+    CHANGE_SUIT
+};
 
 class ofApp : public ofBaseApp {
 public:
@@ -17,6 +24,10 @@ public:
 	void update();
 	void draw();
 	void keyPressed(int key);
+    
+    void setSceneMode();
+    
+    ofShader shader;
 	
 	ofVideoGrabber cam;
 	ofxFaceTracker tracker;
@@ -33,4 +44,9 @@ public:
     graphUIBox uibox_t;
     circleUI eyeCircle;
     robotUI robot;
+    
+    //controlScene
+    sceneMode sMode;
+    int appTime;
+    int sceneTime;
 };

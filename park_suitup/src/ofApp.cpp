@@ -32,6 +32,8 @@ void ofApp::setup() {
     uibox_b.init(ofPoint(ofGetWidth()/2 + 100, 400),'b');
     uibox_t.init(ofPoint(ofGetWidth()/2 + 100, 10),'t');
     robot.init(ofPoint(40,500));
+    
+    shader.load("shader/chromaKey");
 }
 
 void ofApp::update() {
