@@ -1,13 +1,14 @@
 #include "ofMain.h"
-#include "ofxOpenCv.h"
 
 
 #define NUM_IMAGE 4
+#define NUM_CIRCLE 5
 
 class robotUI {
 private:
     ofPoint pos;
     int size;
+    int moveCircleZ;
     
 public:
     void init(ofPoint pos_);

@@ -5,7 +5,12 @@ using namespace cv;
 
 void ofApp::setup() {
 	ofSetVerticalSync(true);
-    ofEnableAlphaBlending();
+    
+    //setupSound
+    bgmPlayer.load("sound/ironmanBGM.mp3");
+    bgmPlayer.setLoop(true);
+    bgmPlayer.setVolume(1.0);
+    bgmPlayer.play();
     
     //setup Camera
 	cam.initGrabber(1280, 720);
@@ -24,14 +29,25 @@ void ofApp::setup() {
     //setup UI
     eyeCircle.init();
     
-    uibox.init(ofPoint(400,200));
-    robot.init(ofPoint(-400,200));
+    uibox_b.init(ofPoint(ofGetWidth()/2 + 100, 400),'b');
+    uibox_t.init(ofPoint(ofGetWidth()/2 + 100, 10),'t');
+    robot.init(ofPoint(40,500));
+    
+    shader.load("shader/chromaKey");
 }
 
 void ofApp::update() {
+    //updateSpectrumBar
+    for(int i = 0 ; i < NUM_SPECTRUM ; i++){
+        float * volume = ofSoundGetSpectrum(i+1);
+        size_spect[i] = volume[0] * 1300;
+    }
+    
     //update UI
-    uibox.update();
-    eyeCircle.update();
+    uibox_b.update();
+    uibox_t.update();
+    robot.update();
+    eyeCircle.update(size_spect);
     
     //update Camera
 	cam.update();
@@ -65,13 +81,13 @@ void ofApp::update() {
         
         //control_ui_right
         if(angleFace.y < 0){
-            uibox.setModesize(1);
+            uibox_b.setModesize(1);
+            uibox_t.setModesize(1);
         }else if(angleFace.y > 0){
-            uibox.setModesize(2);
+            uibox_b.setModesize(2);
+            uibox_t.setModesize(2);
         }
     }
-    
-    
 }
 
 void ofApp::draw() {
@@ -79,8 +95,8 @@ void ofApp::draw() {
     
 //    cam.draw(cam.getWidth(), 0, -cam.getWidth(), cam.getHeight());
     
-    ofPushMatrix();
     ofPushStyle();
+    ofPushMatrix();
     
     ofScale(-1,1);
     ofTranslate(-cam.getWidth(),0);
@@ -92,7 +108,6 @@ void ofApp::draw() {
     if(tracker.getHaarFound()){
         
         if(tracker.getImagePoint(42) != tracker.getImagePoint(45)){
-            
             //draw movalbe UI
             ofPushStyle();
             ofPushMatrix();
@@ -112,16 +127,13 @@ void ofApp::draw() {
             ofPopMatrix();
             ofPopStyle();
         }
-
-        
         //draw stand UI
         ofPushStyle();
         ofPushMatrix();
-
-        ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
         
-        //right_bottom_lineGraph
-        uibox.draw();
+        //lineGraph
+        uibox_b.draw();
+        uibox_t.draw();
         robot.draw();
 
         ofPopMatrix();
