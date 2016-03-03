@@ -19,19 +19,66 @@ void ControlMonitor::update(){
     time += 1;
 }
 
+void ControlMonitor::keyPressed(int key){
+    switch (key) {
+        case 'f':
+            fToggle *= -1;
+            break;
+        case 'b':
+            bToggle *= -1;
+            break;
+        case 'l':
+            lineToggle *= -1;
+            break;
+        default:
+            break;
+    }
+}
+
+void ControlMonitor::drawBackgroundMesh(FaceTracker& faceTracker){
+    int l = 48;
+    ofSetColor(64);
+    ofSetLineWidth(1);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    ofPushMatrix();
+    ofTranslate(conf.camWidth/2, conf.camHeight/2, buffer[0]*100);
+    applyMatrix(faceTracker.rotationMatrix);
+    for (int k = 0; k < 3; k++) {
+        ofRotateZ(60);
+        for (int i = 0; i < conf.camHeight*3 / l; i++) {
+            ofLine(-conf.camWidth, i*l - conf.camHeight,
+                   conf.camWidth*2, i*l - conf.camHeight);
+        }
+    }
+    ofPopMatrix();
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void ControlMonitor::drawBackground(FaceTracker& faceTracker){
+    if(bToggle > 0){
+        ofFill();
+        ofSetColor(32);
+        ofRect(0, 0, conf.camWidth, conf.camHeight);
+        if (lineToggle > 0) {
+            drawBackgroundMesh(faceTracker);
+        }
+    }
+}
+
 void ControlMonitor::draw(FaceTracker& faceTracker){
 //    faceTracker = faceTrackerRef;
     ofSetColor(255);
     faceTracker.drawCam();
+    drawBackground(faceTracker);
     ofDrawBitmapString("FPS: " + ofToString((int) ofGetFrameRate()), 10, 20);
-//    faceTracker.drawTracker();
+    
     
     
     // easyCam.begin();
     ofPushMatrix();
     ofSetupScreenOrtho(conf.camWidth, conf.camHeight, -1000, 1000);
     // 顔の位置に平行移動
-    ofTranslate(faceTracker.position.x, faceTracker.position.y - faceTracker.scale * 8);
+    ofTranslate(faceTracker.position.x, faceTracker.position.y);
     // 顔の向きに回転
     applyMatrix(faceTracker.rotationMatrix);
     // 顔の距離に合わせて大きさを変更
@@ -39,6 +86,10 @@ void ControlMonitor::draw(FaceTracker& faceTracker){
     // コントロールサークルを描画
     if (faceTracker.getFound()) {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        if(fToggle > 0){
+            ofSetColor(126);
+            faceTracker.drawFaceWire();
+        }
         drawControlCircle(faceTracker);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
@@ -53,20 +104,6 @@ void ControlMonitor::drawControlCircle(FaceTracker& faceTracker){
         hue.setHsb(ofMap(faceTracker.orientation.z, -conf.faceOriZThreshold, conf.faceOriZThreshold, 0, 360), 255, 255);
         ofSetColor(hue);
     }
-//    if(faceTracker.getMouseOpend()){
-//        centerSphere.set(10, 10);
-//        centerSphere.drawWireframe();
-//    }
-    ofFill();
-//    ofRect(30, -6, ofMap(faceTracker.orientation.x, -conf.faceOriXThreshold, conf.faceOriXThreshold, -25, 25), 4);
-//    ofRect(30, 0, ofMap(faceTracker.orientation.y, -conf.faceOriYThreshold, conf.faceOriYThreshold, -50, 50), 4);
-//    ofRect(30, 6, ofMap(faceTracker.orientation.z, -conf.faceOriZThreshold, conf.faceOriZThreshold, -50, 50), 4);
-    ofNoFill();
-//    ofRect(5, -6, 50, 4);
-//    ofDrawBitmapString("x: " + ofToString(faceTracker.orientation.x), 20, 20);
-//    ofDrawBitmapString("y: " + ofToString(faceTracker.orientation.y), 20, 26);
-//    ofDrawBitmapString("z: " + ofToString(faceTracker.orientation.z), 20, 32);
-//    ofDrawBitmapString("mouth: " + ofToString(faceTracker.getGesture(ofxFaceTracker::MOUTH_HEIGHT)), 20, 38);
     
     ofTranslate(0, 0, 5);
     drawSoundWaveCircle(faceTracker);
@@ -133,8 +170,8 @@ void ControlMonitor::drawCircleMonitor(float angle, string label){
 void ControlMonitor::drawSoundWaveCircle(FaceTracker& faceTracker){
     float r = 45.0;
     float w = 0.5;
-    float barBase = 3.0;
-    float barMult = 5.0;
+    float barBase = 2.0;
+    float barMult = 10.0;
     float barRotateSpeed = 0.1;
     
     ofPushMatrix();
@@ -150,7 +187,14 @@ void ControlMonitor::drawSoundWaveCircle(FaceTracker& faceTracker){
         if(i == bufferSize/2) ofDrawBitmapString("MID", r + barMult, 0);
         if(i == bufferSize*8/9) ofDrawBitmapString("HIGH", r + barMult, 0);
         // 音の可視化
-        ofSetColor(0, 255, 255);
+        if(faceTracker.getMouseOpend()){
+            ofColor waveColor;
+            waveColor.setHsb((int(buffer[i] * 10000) % 360), 255, 126);
+            ofSetColor(waveColor);
+        }else{
+            ofSetColor(0, 255, 255);
+        }
+        
         float l = barBase + buffer[i] * barMult;
         ofRect(-(w / 2.0), r, w, l);
     }

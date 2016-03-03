@@ -38,7 +38,7 @@ void ofApp::draw() {
 }
 
 void ofApp::keyPressed(int key) {
-    
+    controlMonitor.keyPressed(key);
     switch (key) {
         case ' ':
 //            midiControl.controlWave(16, 0.01);

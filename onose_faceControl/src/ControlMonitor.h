@@ -24,7 +24,10 @@ class ControlMonitor{
 public:
     void setup();
     void update();
+    void keyPressed(int key);
     void draw(FaceTracker& faceTracker);
+    void drawBackgroundMesh(FaceTracker& faceTracker);
+    void drawBackground(FaceTracker& faceTracker);
     void drawControlCircle(FaceTracker& faceTracker);
     void drawSoundWaveCircle(FaceTracker& faceTracker);
     void drawCircleMonitor(float angle, string label);
@@ -42,6 +45,10 @@ public:
     float buffer[BUFSIZE];
     int bufferSize;
     int time;
+    
+    int fToggle = -1;
+    int bToggle = 1;
+    int lineToggle = -1;
 };
 
 #endif /* ControlMonitor_h */
