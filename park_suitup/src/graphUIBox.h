@@ -8,8 +8,8 @@
 
 #pragma once
 
-#define GRAPHUI_MIN_SIZE 150
-#define GRAPHUI_MAX_SIZE 300
+#define GRAPHUI_MIN_SIZE 200
+#define GRAPHUI_MAX_SIZE 400
 #define GRAPHUI_ANGLE    30
 
 class graphUIBox {
