@@ -54,6 +54,7 @@ class ofApp : public ofBaseApp {
         //for Movie
         ofVideoPlayer openingMovie;
         ofVideoPlayer mainMovie;
+        ofVideoPlayer interfaceMovie;
     
         //for Sound
         ofSoundPlayer suitBgmPlayer;

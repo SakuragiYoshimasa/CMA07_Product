@@ -16,6 +16,7 @@ void ofApp::setup() {
     mainBgmPlayer.load("sound/IronManRemix.mp3");
     mainBgmPlayer.setLoop(false);
     mainBgmPlayer.setVolume(1.0);
+
     
     //setup Camera
 	cam.initGrabber(1280, 720);
@@ -45,6 +46,7 @@ void ofApp::setup() {
     //setup Movie
     openingMovie.load("movie/openingMovie.mp4");
     mainMovie.load("movie/IronManRemix.mp4");
+    interfaceMovie.load("movie/interface.mov");
     
     //setup Particle
     p.assign(MAXNUM_PARTICLE, particleScene());
@@ -84,10 +86,12 @@ void ofApp::update() {
         //stopOpeningMovie only once
         if(sMode == IN_SUIT_SCENE){
             openingMovie.close();
+            interfaceMovie.play();
         }
         
         //start to paly mainMovie only once
         if(sMode == OPENING_START){
+            interfaceMovie.close();
             suitBgmPlayer.stop();
             
             mainMovie.setAnchorPercent(0.5, 0.5);
@@ -150,6 +154,7 @@ void ofApp::update() {
                     }
                 }
             }
+            interfaceMovie.update();
             break;
         case 2:
             mainMovie.update();
@@ -249,6 +254,11 @@ void ofApp::draw() {
                 ofPopMatrix();
                 ofPopStyle();
             }
+            shader.begin();
+            shader.setUniform3f("chromaKeyColor", ofVec3f(1.0, 0.0, 1.0));
+            shader.setUniform1f("threshold", 1.0);
+            interfaceMovie.draw(0,0);
+            shader.end();
             break;
             
         case 2:
