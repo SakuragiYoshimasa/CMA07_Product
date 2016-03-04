@@ -262,11 +262,7 @@ void ofApp::update() {
 
 void ofApp::draw() {
 	ofSetColor(255);
-    
-//    cam.draw(cam.getWidth(), 0, -cam.getWidth(), cam.getHeight());
-    
 
-    
     switch(sMode){
         case 0:
             openingMovie.draw(0, 0);
@@ -334,6 +330,13 @@ void ofApp::draw() {
             
         case 3:
             ofBackground(255);
+            
+            if(ofGetElapsedTimeMillis() > START_MOVIE_SPOT + 43200.0 && ofGetElapsedTimeMillis() < START_MOVIE_SPOT + 44000.0){
+                ofImage monoImage = cam.getPixels();
+                monoImage.setImageType(OF_IMAGE_GRAYSCALE);
+                monoImage.draw(0,0);
+            }
+            
             switch(numSceneTable%4){
                 case 0:
                     dotmovie.draw(mainMovie);
@@ -348,6 +351,7 @@ void ofApp::draw() {
                     dotmovie.draw(mainMovie, size_spect);
                     break;
             }
+
             break;
             
         case 4:
@@ -379,10 +383,11 @@ void ofApp::draw() {
             ofBackground(255,0,0);
             break;
     }
+    
+//        cam.draw(cam.getWidth(), 0, -cam.getWidth()/3, cam.getHeight()/3);
 
 	ofDrawBitmapString(ofToString((int) ofGetFrameRate()), ofGetWidth() - 20, ofGetHeight() - 10);
 	ofDrawBitmapString(ofToString(ofGetElapsedTimeMillis()), ofGetWidth()/2, ofGetHeight() - 50);
-    ofDrawBitmapString(ofToString(mainMovie.getPosition()), ofGetWidth()/2, ofGetHeight() - 20);
 }
 
 void ofApp::keyPressed(int key) {
