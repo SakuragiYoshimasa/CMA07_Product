@@ -38,6 +38,22 @@ void MidiControl::update(){
     time += 1;
 }
 
+void MidiControl::keyPressed(int key){
+    switch (key) {
+        case '1':
+            conf.xCtrl *= -1;
+            break;
+        case '2':
+            conf.yCtrl1 *= -1;
+            break;
+        case '3':
+            conf.yCtrl2 *= -1;
+            break;
+        default:
+            break;
+    }
+}
+
 void MidiControl::viewIndicator(){
     // let's see something
     ofSetColor(0);
@@ -78,16 +94,33 @@ void MidiControl::controlWave(int control, float t){
 
 void MidiControl::sendControlChange(int control, float value, float valMin, float valMax){
     float controlValue = ofMap(value, valMin, valMax, 0, 127);
+    if(controlValue < 0)    controlValue = 0;
+    if(controlValue > 127)  controlValue = 127;
     midiOut.sendControlChange(channel, control, controlValue);
 }
 
 void MidiControl::faceOriControl(FaceTracker& faceTracker){
-    sendControlChange(16, faceTracker.orientation.x,
-                      -conf.faceOriXThreshold, conf.faceOriXThreshold);
-    sendControlChange(17, faceTracker.orientation.y,
-                      -conf.faceOriYThreshold, conf.faceOriYThreshold);
-    sendControlChange(18, faceTracker.orientation.z,
-                      -conf.faceOriZThreshold, conf.faceOriZThreshold);
+    if (conf.xCtrl > 0) {
+        sendControlChange(16, faceTracker.orientation.x,
+                          conf.faceOriXThreshold, -conf.faceOriXThreshold);
+    }
+    if (conf.yCtrl1 > 0){
+        if(faceTracker.orientation.y < 0){
+            sendControlChange(17, faceTracker.orientation.y,
+                              0, -conf.faceOriYThreshold);
+        }
+    }
+    if (conf.yCtrl2 > 0){
+        if(faceTracker.orientation.y > 0){
+            sendControlChange(18, faceTracker.orientation.y,
+                              0, conf.faceOriYThreshold);
+        }
+    }
 }
 
+void MidiControl::mouseControl(FaceTracker& faceTracker){
+    if(faceTracker.getMouseOpend()){
+        midiOut.sendNoteOn(channel, 64, 64);
+    }
+}
 

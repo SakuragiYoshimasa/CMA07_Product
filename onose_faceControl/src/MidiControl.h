@@ -9,6 +9,7 @@
 #ifndef MidiControl_h
 #define MidiControl_h
 
+#include <stdio.h>
 #include "ofMain.h"
 #include "ofxMidi.h"
 #include "Config.h"
@@ -19,12 +20,14 @@ class MidiControl{
 public:
     void setup();
     void update();
+    void keyPressed(int key);
     void viewIndicator();
     void exit();
     void mouseDragged(int x, int y, int button);
     void controlWave(int control, float t);
     void sendControlChange(int control, float value, float valMin, float valMax);
     void faceOriControl(FaceTracker& faceTracker);
+    void mouseControl(FaceTracker& faceTracker);
     
     MidiControl();
     ~MidiControl(){};
@@ -35,6 +38,7 @@ public:
     int note, velocity;
     int pan, bend, touch, polytouch;
     int time = 0;
+    bool mouseOpend = false;
     
     Config conf;
 };

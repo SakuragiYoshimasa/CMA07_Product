@@ -28,6 +28,7 @@ void ofApp::update() {
     controlMonitor.update(); // モニタをアップデート
     // 顔の向きから Midi 出力 x: 16, y: 17, z: 18
     midiControl.faceOriControl(faceTracker);
+    midiControl.mouseControl(faceTracker);
 }
 
 void ofApp::draw() {
@@ -39,6 +40,7 @@ void ofApp::draw() {
 
 void ofApp::keyPressed(int key) {
     controlMonitor.keyPressed(key);
+    midiControl.keyPressed(key);
     switch (key) {
         case ' ':
 //            midiControl.controlWave(16, 0.01);

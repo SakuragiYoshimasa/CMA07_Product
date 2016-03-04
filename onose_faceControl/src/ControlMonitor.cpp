@@ -41,7 +41,7 @@ void ControlMonitor::drawBackgroundMesh(FaceTracker& faceTracker){
     ofSetLineWidth(1);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     ofPushMatrix();
-    ofTranslate(conf.camWidth/2, conf.camHeight/2, buffer[0]*100);
+    ofTranslate(conf.camWidth/2, conf.camHeight/2, buffer[0]*150);
     applyMatrix(faceTracker.rotationMatrix);
     for (int k = 0; k < 3; k++) {
         ofRotateZ(60);
@@ -171,7 +171,7 @@ void ControlMonitor::drawSoundWaveCircle(FaceTracker& faceTracker){
     float r = 45.0;
     float w = 0.5;
     float barBase = 2.0;
-    float barMult = 10.0;
+    float barMult = 15.0;
     float barRotateSpeed = 0.1;
     
     ofPushMatrix();
