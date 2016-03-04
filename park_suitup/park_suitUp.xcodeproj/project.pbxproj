@@ -21,6 +21,7 @@
 		45CC483A999BF1065A6B926C /* Distance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DBD717072C35D324E101669 /* Distance.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
 		4E0D8C471C88C8A300F7E29E /* solidBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E0D8C451C88C8A300F7E29E /* solidBox.cpp */; };
+		4E1BF44F1C8924220075343A /* comicFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E1BF44D1C8924220075343A /* comicFace.cpp */; };
 		4EA19C011C86C0A400D253D5 /* particleScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4EA19C001C86C0A400D253D5 /* particleScene.cpp */; };
 		4ECE839E1C888C9700AF7559 /* dotMovie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE839D1C888C9700AF7559 /* dotMovie.cpp */; };
 		4ECE83A21C88A5F100AF7559 /* separateFace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE83A01C88A5F100AF7559 /* separateFace.cpp */; };
@@ -164,6 +165,8 @@
 		4CFA8A81B93736DE82F0090A /* gpumat.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = gpumat.hpp; path = ../../../addons/ofxOpenCv/libs/opencv/include/opencv2/core/gpumat.hpp; sourceTree = SOURCE_ROOT; };
 		4E0D8C451C88C8A300F7E29E /* solidBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = solidBox.cpp; sourceTree = "<group>"; };
 		4E0D8C461C88C8A300F7E29E /* solidBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = solidBox.h; sourceTree = "<group>"; };
+		4E1BF44D1C8924220075343A /* comicFace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = comicFace.cpp; sourceTree = "<group>"; };
+		4E1BF44E1C8924220075343A /* comicFace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = comicFace.h; sourceTree = "<group>"; };
 		4E6F1CED1C86B2C500196450 /* chromaKey.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = chromaKey.frag; path = bin/data/shader/chromaKey.frag; sourceTree = SOURCE_ROOT; };
 		4E6F1CEE1C86B2C500196450 /* chromaKey.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = chromaKey.vert; path = bin/data/shader/chromaKey.vert; sourceTree = SOURCE_ROOT; };
 		4EA19C001C86C0A400D253D5 /* particleScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = particleScene.cpp; sourceTree = "<group>"; };
@@ -1073,6 +1076,8 @@
 				4ECE83A11C88A5F100AF7559 /* separateFace.h */,
 				4E0D8C451C88C8A300F7E29E /* solidBox.cpp */,
 				4E0D8C461C88C8A300F7E29E /* solidBox.h */,
+				4E1BF44D1C8924220075343A /* comicFace.cpp */,
+				4E1BF44E1C8924220075343A /* comicFace.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1278,6 +1283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E1BF44F1C8924220075343A /* comicFace.cpp in Sources */,
 				4EA19C011C86C0A400D253D5 /* particleScene.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,

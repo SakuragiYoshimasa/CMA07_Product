@@ -13,19 +13,22 @@
 #include "dotMovie.h"
 #include "separateFace.h"
 #include "solidBox.h"
+#include "comicFace.h"
 
 #define NUM_SPECTRUM 5
 #define MAXNUM_PARTICLE 1000
 
 enum sceneMode{
-    APP_START,
-    IN_SUIT_SCENE,
-    OPENING_START,
-    DOT_MOVIE,
-    SEPARATE_FACE,
-    PARTICLE_COLOR,
-    SOLID_BOX,
-    ENDING
+    APP_START,              //0
+    IN_SUIT_SCENE,          //1
+    OPENING_START,          //2
+    DOT_MOVIE,              //3
+    SEPARATE_FACE,          //4
+    PARTICLE_COLOR,         //5
+    SOLID_BOX,              //6
+    COMIC_FACE,             //7
+    NORMAL_MOVIE,           //8
+    ENDING                  //9
 };
 
 class ofApp : public ofBaseApp {
@@ -82,11 +85,10 @@ class ofApp : public ofBaseApp {
         dotMovie dotmovie;
         separateFace separateface;
         solidBox solidbox;
+        comicFace comicface;
     
         //for PARTICLE
         vector <particleScene> p;
         vector <ofPoint> attractPoints;
         vector <ofPoint> attractPointsWithMovement;
-    
-        float mouseR,mouseB;
 };

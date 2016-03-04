@@ -69,9 +69,12 @@ void ofApp::setup() {
     //setup Solidbox
     solidbox.init();
     
+    //setup comicFace
+    comicface.init();
+    
     //setup SceneController
     timeTable = {9000.0, 19500.0, 31000.0, 36000.0,40000.0,50000.0,100000.0};
-    sceneTable = {IN_SUIT_SCENE, OPENING_START, SOLID_BOX, PARTICLE_COLOR, DOT_MOVIE, SEPARATE_FACE};
+    sceneTable = {IN_SUIT_SCENE, OPENING_START, COMIC_FACE, PARTICLE_COLOR, DOT_MOVIE, SEPARATE_FACE};
     numTimeTable  = 0;
     
     sMode = APP_START;
@@ -176,6 +179,7 @@ void ofApp::update() {
             if(tracker.update(toCv(cam))) {
                 classifier.classify(tracker);
             }
+            mainMovie.update();
             break;
             
         case 5:
@@ -191,12 +195,21 @@ void ofApp::update() {
                 attractPointsWithMovement[i].x = attractPoints[i].x + ofSignedNoise(i * 10, ofGetElapsedTimef() * 0.7) * 12.0;
                 attractPointsWithMovement[i].y = attractPoints[i].y + ofSignedNoise(i * -10, ofGetElapsedTimef() * 0.7) * 12.0;
             }
+            
+            mainMovie.update();
             break;
             
         case 6:
             if(tracker.update(toCv(cam))) {
                 classifier.classify(tracker);
             }
+            mainMovie.update();
+            break;
+        case 7:
+            if(tracker.update(toCv(cam))) {
+                classifier.classify(tracker);
+            }
+            mainMovie.update();
             break;
 //        default:
 //            if(tracker.update(toCv(cam))) {
@@ -300,6 +313,9 @@ void ofApp::draw() {
             break;
         case 6:
             solidbox.draw(tracker.getRotationMatrix().getRotate(), size_spect[3]);
+            break;
+        case 7:
+            comicface.draw(tracker);
             break;
     }
 

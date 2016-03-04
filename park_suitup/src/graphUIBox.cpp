@@ -98,7 +98,7 @@ void graphUIBox::draw(){
 //    ofSetColor(255);
     gViewer.draw(pos.x/2,pos.y/2);
 
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+//    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 //    gpuBlur.beginDrawScene();
 
 //    gpuBlur.endDrawScene();
