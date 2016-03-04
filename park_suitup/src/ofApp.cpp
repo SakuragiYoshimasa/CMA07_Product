@@ -73,8 +73,28 @@ void ofApp::setup() {
     comicface.init();
     
     //setup SceneController
-    timeTable = {9000.0, 19500.0, 31000.0, 36000.0,40000.0,50000.0,100000.0};
-    sceneTable = {IN_SUIT_SCENE, OPENING_START, COMIC_FACE, PARTICLE_COLOR, DOT_MOVIE, SEPARATE_FACE};
+    timeTable =     {9000.0,                     START_MOVIE_SPOT,         START_MOVIE_SPOT + 13170,    START_MOVIE_SPOT + 14370,   START_MOVIE_SPOT + 15890,
+                     START_MOVIE_SPOT + 17800,   START_MOVIE_SPOT + 19110, START_MOVIE_SPOT + 20230,    START_MOVIE_SPOT + 22150,   START_MOVIE_SPOT + 26000,
+                     START_MOVIE_SPOT + 28050,   START_MOVIE_SPOT + 31000, START_MOVIE_SPOT + 32230,    START_MOVIE_SPOT + 33180,   START_MOVIE_SPOT + 37130,
+                     START_MOVIE_SPOT + 37530,   START_MOVIE_SPOT + 38030, START_MOVIE_SPOT + 38530,    START_MOVIE_SPOT + 39140,   START_MOVIE_SPOT + 42140,
+                     START_MOVIE_SPOT + 43010,   START_MOVIE_SPOT + 43150, START_MOVIE_SPOT + 44500,    START_MOVIE_SPOT + 45080,    START_MOVIE_SPOT + 47100,
+                     START_MOVIE_SPOT + 48180,   START_MOVIE_SPOT + 50040, START_MOVIE_SPOT + 51160,    START_MOVIE_SPOT + 55090,    START_MOVIE_SPOT + 56210,
+                     START_MOVIE_SPOT + 58220,
+                     START_MOVIE_SPOT + 59120,   START_MOVIE_SPOT + 61030, START_MOVIE_SPOT + 64210,    START_MOVIE_SPOT + 67020,   START_MOVIE_SPOT + 69110,
+                     START_MOVIE_SPOT + 72100,   START_MOVIE_SPOT + 73190, START_MOVIE_SPOT + 75000,    START_MOVIE_SPOT + 77000,   START_MOVIE_SPOT + 78160,
+                     START_MOVIE_SPOT + 79100,   START_MOVIE_SPOT + 79600, START_MOVIE_SPOT + 80100,
+                    };
+    sceneTable =    {IN_SUIT_SCENE,             OPENING_START,              COMIC_FACE,                 NORMAL_MOVIE,               SOLID_BOX,
+                     NORMAL_MOVIE,              COMIC_FACE,                 NORMAL_MOVIE,               DOT_MOVIE,                  NORMAL_MOVIE,
+                     DOT_MOVIE,                 NORMAL_MOVIE,               SOLID_BOX,                  DOT_MOVIE,                  NORMAL_MOVIE,
+                     DOT_MOVIE,                 NORMAL_MOVIE,               DOT_MOVIE,                  NORMAL_MOVIE,               PARTICLE_COLOR,
+                     NORMAL_MOVIE,              DOT_MOVIE,                  NORMAL_MOVIE,               SOLID_BOX,                  NORMAL_MOVIE,
+                     DOT_MOVIE,                 PARTICLE_COLOR,             NORMAL_MOVIE,               SOLID_BOX,                  NORMAL_MOVIE,
+                     SEPARATE_FACE,
+                     NORMAL_MOVIE,              COMIC_FACE,                 DOT_MOVIE,                  NORMAL_MOVIE,
+                     SEPARATE_FACE,             NORMAL_MOVIE,               DOT_MOVIE,                  SOLID_BOX,                  NORMAL_MOVIE,
+                     SEPARATE_FACE,             COMIC_FACE,                 SOLID_BOX,                  ENDING
+                    };
     numTimeTable  = 0;
     
     sMode = APP_START;
@@ -100,7 +120,9 @@ void ofApp::update() {
         if(sMode == OPENING_START){
             interfaceMovie.close();
             suitBgmPlayer.stop();
+            suitBgmPlayer.unload();
             effectWarningPlayer.stop();
+            effectWarningPlayer.unload();
             
             mainMovie.setAnchorPercent(0.5, 0.5);
             mainMovie.play();
@@ -174,7 +196,6 @@ void ofApp::update() {
         case 3:
             mainMovie.update();
             break;
-            
         case 4:
             if(tracker.update(toCv(cam))) {
                 classifier.classify(tracker);
@@ -209,6 +230,9 @@ void ofApp::update() {
             if(tracker.update(toCv(cam))) {
                 classifier.classify(tracker);
             }
+            mainMovie.update();
+            break;
+        case 8:
             mainMovie.update();
             break;
 //        default:
@@ -293,7 +317,20 @@ void ofApp::draw() {
             
         case 3:
             ofBackground(255);
-            dotmovie.draw(mainMovie);
+            switch(numSceneTable%4){
+                case 0:
+                    dotmovie.draw(mainMovie);
+                    break;
+                case 1:
+                    dotmovie.draw(mainMovie, (numSceneTable%3), size_spect[(int)ofRandom(0,4)]);
+                    break;
+                case 2:
+                    dotmovie.draw(mainMovie, (numSceneTable%3), size_spect[(int)ofRandom(0,4)], size_spect[(int)ofRandom(0,4)]);
+                    break;
+                case 3:
+                    dotmovie.draw(mainMovie, size_spect);
+                    break;
+            }
             break;
             
         case 4:
@@ -317,11 +354,17 @@ void ofApp::draw() {
         case 7:
             comicface.draw(tracker);
             break;
+        case 8:
+            mainMovie.draw(ofGetWidth()/2, ofGetHeight()/2);
+            break;
+        case 9:
+            ofBackground(255,0,0);
+            break;
     }
 
 	ofDrawBitmapString(ofToString((int) ofGetFrameRate()), ofGetWidth() - 20, ofGetHeight() - 10);
 	ofDrawBitmapString(ofToString(ofGetElapsedTimeMillis()), ofGetWidth()/2, ofGetHeight() - 50);
-    ofDrawBitmapString(ofToString(sMode), ofGetWidth()/2, ofGetHeight() - 20);
+    ofDrawBitmapString(ofToString(mainMovie.getPosition()), ofGetWidth()/2, ofGetHeight() - 20);
 }
 
 void ofApp::keyPressed(int key) {

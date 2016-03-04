@@ -26,7 +26,7 @@ void dotMovie::draw(ofVideoPlayer video){
     }
 }
 
-void dotMovie::draw(ofVideoPlayer video, char mode, int size_spect){
+void dotMovie::draw(ofVideoPlayer video, int mode, int size_spect){
     
     unsigned char * pixels = video.getPixels();
     
@@ -38,15 +38,15 @@ void dotMovie::draw(ofVideoPlayer video, char mode, int size_spect){
             unsigned char b = pixels[j * ((int)video.getWidth()) * 3 + i * 3 + 2];
             
             switch (mode) {
-                case 'r':
+                case 0:
                     ofSetColor(255, 0, 0, 50);
                     ofDrawCircle(i,30 + j,(10.0*(float)r/255.0) * size_spect);
                     break;
-                case 'g':
+                case 1:
                     ofSetColor(0, 255, 0, 50);
                     ofDrawCircle(i,30 + j,(10.0*(float)g/255.0) * size_spect);
                     break;
-                case 'b':
+                case 2:
                     ofSetColor(0, 0, 255, 50);
                     ofDrawCircle(i,30 + j,(10.0*(float)b/255.0) * size_spect);
                     break;
@@ -55,7 +55,7 @@ void dotMovie::draw(ofVideoPlayer video, char mode, int size_spect){
     }
 }
 
-void dotMovie::draw(ofVideoPlayer video, char mode, int size_spect1, int size_spect2){
+void dotMovie::draw(ofVideoPlayer video, int mode, int size_spect1, int size_spect2){
     
     unsigned char * pixels = video.getPixels();
     
@@ -67,20 +67,20 @@ void dotMovie::draw(ofVideoPlayer video, char mode, int size_spect1, int size_sp
             unsigned char b = pixels[j * ((int)video.getWidth()) * 3 + i * 3 + 2];
             
             switch (mode) {
-                case 'y':
+                case 0:
                     ofSetColor(255, 0, 0, 50);
                     ofDrawCircle(i,30 + j,(10.0*(float)r/255.0) * size_spect1);
                     ofSetColor(0, 255, 0, 50);
                     ofDrawCircle(i,30 + j,(10.0*(float)g/255.0) * size_spect2);
                     break;
-                case 'p':
+                case 1:
                     ofSetColor(255, 0, 0, 50);
                     ofDrawCircle(i,30 + j,(10.0*(float)r/255.0) * size_spect1);
                     ofSetColor(0, 0, 255, 50);
                     ofDrawCircle(i,30 + j,(10.0*(float)b/255.0) * size_spect2);
                     break;
                     break;
-                case 'c':
+                case 2:
                     ofSetColor(0, 255, 0, 50);
                     ofDrawCircle(i,30 + j,(10.0*(float)g/255.0) * size_spect1);
                     ofSetColor(0, 0, 255, 50);
@@ -92,7 +92,7 @@ void dotMovie::draw(ofVideoPlayer video, char mode, int size_spect1, int size_sp
 }
 
 
-void dotMovie::draw(ofVideoPlayer video, int size_spect1, int size_spect2, int size_spect3){
+void dotMovie::draw(ofVideoPlayer video, int size_spect[]){
     
     unsigned char * pixels = video.getPixels();
     
@@ -104,11 +104,11 @@ void dotMovie::draw(ofVideoPlayer video, int size_spect1, int size_spect2, int s
             unsigned char b = pixels[j * ((int)video.getWidth()) * 3 + i * 3 + 2];
             
             ofSetColor(255, 0, 0, 50);
-            ofDrawCircle(i,30 + j,(10.0*(float)r/255.0) * size_spect1);
+            ofDrawCircle(i,30 + j,(10.0*(float)r/255.0) * size_spect[(int)ofRandom(0,4)]);
             ofSetColor(0, 255, 0, 50);
-            ofDrawCircle(i,30 + j,(10.0*(float)g/255.0) * size_spect2);
+            ofDrawCircle(i,30 + j,(10.0*(float)g/255.0) * size_spect[(int)ofRandom(0,4)]);
             ofSetColor(0, 0, 255, 50);
-            ofDrawCircle(i,30 + j,(10.0*(float)b/255.0) * size_spect3);
+            ofDrawCircle(i,30 + j,(10.0*(float)b/255.0) * size_spect[(int)ofRandom(0,4)]);
         }
     }
 }

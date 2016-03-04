@@ -18,6 +18,8 @@
 #define NUM_SPECTRUM 5
 #define MAXNUM_PARTICLE 1000
 
+#define START_MOVIE_SPOT 19500.0
+
 enum sceneMode{
     APP_START,              //0
     IN_SUIT_SCENE,          //1
