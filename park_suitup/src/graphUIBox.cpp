@@ -34,10 +34,10 @@ void graphUIBox::init(ofPoint pos_, char mode_pos_){
 
 void graphUIBox::update(){
     
-    int ran = ofRandom(1.0, 150.0);
-    if(ofGetFrameNum() % ran == 0){
+//    int ran = ofRandom(1.0, 150.0);
+//    if(ofGetFrameNum() % ran == 0){
         d = ofRandom(-2.0, 2.0);
-    }
+//    }
     
     gViewer.pushData(d);
     
@@ -62,8 +62,8 @@ void graphUIBox::update(){
     gViewer.setSize(size_box * 1.5, size_box);
     
     //update blur
-    gpuBlur.blurOffset = 100 * ofMap(size_box, GRAPHUI_MIN_SIZE, GRAPHUI_MAX_SIZE, 0.5, 0, true);
-    gpuBlur.blurPasses = 50 * ofMap(size_box, GRAPHUI_MIN_SIZE, GRAPHUI_MAX_SIZE, 0, 0.5, true);
+    gpuBlur.blurOffset = 100 * ofMap(size_box, GRAPHUI_MIN_SIZE, GRAPHUI_MAX_SIZE, 0.2, 0, true);
+    gpuBlur.blurPasses = 50 * ofMap(size_box, GRAPHUI_MIN_SIZE, GRAPHUI_MAX_SIZE, 0, 0.2, true);
     gpuBlur.numBlurOverlays = 1;
     gpuBlur.blurOverlayGain = 255;
 }
@@ -94,24 +94,24 @@ void graphUIBox::draw(){
             ofRotate(GRAPHUI_ANGLE, -0.3, 0.5, 0);
             break;
     }
+//    ofClear(0, 0, 0, 0);
+//    ofSetColor(255);
+    gViewer.draw(pos.x/2,pos.y/2);
 
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
-    gpuBlur.beginDrawScene();
-        ofClear(0, 0, 0, 0);
-        ofSetColor(255);
-        gViewer.draw(pos.x/2,pos.y/2);
-    gpuBlur.endDrawScene();
-    
-    //blur the fbo
-    //blending will be disabled at this stage
-    gpuBlur.performBlur();
-    
-    //overlay the blur on top
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA); //pre-multiplied alpha
-    gpuBlur.drawBlurFbo();
-    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+//    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+//    gpuBlur.beginDrawScene();
 
-    
-    ofPopStyle();
+//    gpuBlur.endDrawScene();
+//    
+//    //blur the fbo
+//    //blending will be disabled at this stage
+//    gpuBlur.performBlur();
+//    
+//    //overlay the blur on top
+//    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA); //pre-multiplied alpha
+//    gpuBlur.drawBlurFbo();
+//    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+
     ofPopMatrix();
+    ofPopStyle();
 }

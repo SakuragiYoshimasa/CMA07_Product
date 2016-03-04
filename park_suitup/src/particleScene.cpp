@@ -1,54 +1,27 @@
 #include <stdio.h>
 #include <particleScene.h>
 
-void particleScene::init(){
-    attractPoints = NULL;
-}
+particleScene::particleScene(){
 
-void particleScene::setAttractPoints(vector <ofPoint> * attract){
-    attractPoints = attract;
 }
 
 void particleScene::reset(){
-    uniqueVal = ofRandom(-10000, 10000);
     
     pos.x = ofRandomWidth();
     pos.y = ofRandomHeight();
     
-    vel.x = ofRandom(-3.9, 3.9);
-    vel.y = ofRandom(-3.9, 3.9);
-    
-    frc   = ofPoint(0,0,0);
+    vel.x = ofRandom(-10.0, 10.0);
+    vel.y = ofRandom(-10.0, 10.0);
     
     scale = ofRandom(0.5, 1.0);
-    
-    drag  = ofRandom(0.95, 0.998);
 }
 
-//------------------------------------------------------------------
-void particleScene::update(){
-    
-    ofPoint attractPt(ofGetMouseX(), ofGetMouseY());
-    frc = attractPt-pos;
-    
-    //let get the distance and only repel points close to the mouse
-    float dist = frc.length();
-    frc.normalize();
-    
-    vel *= drag;
-    if( dist < 150 ){
-        vel += -frc * 0.6; //notice the frc is negative
-    }else{
-        //if the particles are not close to us, lets add a little bit of random movement using noise. this is where uniqueVal comes in handy.
-        frc.x = ofSignedNoise(uniqueVal, pos.y * 0.01, ofGetElapsedTimef()*0.2);
-        frc.y = ofSignedNoise(uniqueVal, pos.x * 0.01, ofGetElapsedTimef()*0.2);
-        vel += frc * 0.04;
-    }
+
+void particleScene::update(ofPoint facePosition){
     
     //updatePosition
     pos += vel;
     
-
     //settingArea
     if( pos.x > ofGetWidth() ){
         pos.x = ofGetWidth();
@@ -67,9 +40,25 @@ void particleScene::update(){
     }
 }
 
-//------------------------------------------------------------------
-void particleScene::draw(){
-    ofSetColor(208, 255, 63);
-    ofDrawCircle(pos.x, pos.y, scale * 4.0);
+void particleScene::draw(ofVideoPlayer video){
+    unsigned char * pixels = video.getPixels();
+    
+    unsigned char color;
+    switch((int)ofRandom(1,3)){
+        case 1:
+            color = pixels[((int)pos.y) * ((int)video.getWidth()) * 3 + ((int)pos.x) * 3];
+            ofSetColor((float)color, 0, 0);
+            break;
+        case 2:
+            color = pixels[((int)pos.y) * ((int)video.getWidth()) * 3 + ((int)pos.x) * 3+1];
+            ofSetColor(0, (float)color, 0);
+            break;
+        case 3:
+            color = pixels[((int)pos.y) * ((int)video.getWidth()) * 3 + ((int)pos.x) * 3+2];
+            ofSetColor(0, 0, (float)color);
+            break;
+    }
+
+    ofDrawCircle(pos.x, pos.y, scale * (40.0 * (float)color/255));
 }
 

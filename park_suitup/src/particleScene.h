@@ -4,20 +4,15 @@
 class particleScene{
     
 public:
-    void init();
-    void setAttractPoints(vector <ofPoint> * attract);
+    particleScene();
     
     void reset();
-    void update();
-    void draw();
+    void update(ofPoint facePosition);
+    void draw(ofVideoPlayer video);
     
     ofPoint pos;
     ofPoint vel;
-    ofPoint frc;
-    
-    float drag;
-    float uniqueVal;
+
     float scale;
-    
-    vector <ofPoint> * attractPoints;
+
 };
