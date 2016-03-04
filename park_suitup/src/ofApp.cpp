@@ -16,6 +16,10 @@ void ofApp::setup() {
     mainBgmPlayer.load("sound/IronManRemix.mp3");
     mainBgmPlayer.setLoop(false);
     mainBgmPlayer.setVolume(1.0);
+    
+    effectWarningPlayer.load("sound/AlarmAlertEffect.mp3");
+    effectWarningPlayer.setLoop(false);
+    effectWarningPlayer.setVolume(1.0);
 
     
     //setup Camera
@@ -46,7 +50,7 @@ void ofApp::setup() {
     //setup Movie
     openingMovie.load("movie/openingMovie.mp4");
     mainMovie.load("movie/IronManRemix.mp4");
-    interfaceMovie.load("movie/interface.mov");
+    interfaceMovie.load("movie/interface.mp4");
     
     //setup Particle
     p.assign(MAXNUM_PARTICLE, particleScene());
@@ -66,8 +70,8 @@ void ofApp::setup() {
     solidbox.init();
     
     //setup SceneController
-    timeTable = {9000.0, 15000.0, 19000.0, 31000.0,40000.0,50000.0,100000.0};
-    sceneTable = {IN_SUIT_SCENE, SOLID_BOX, PARTICLE_COLOR, OPENING_START, DOT_MOVIE, SEPARATE_FACE};
+    timeTable = {9000.0, 19500.0, 31000.0, 36000.0,40000.0,50000.0,100000.0};
+    sceneTable = {IN_SUIT_SCENE, OPENING_START, SOLID_BOX, PARTICLE_COLOR, DOT_MOVIE, SEPARATE_FACE};
     numTimeTable  = 0;
     
     sMode = APP_START;
@@ -93,6 +97,7 @@ void ofApp::update() {
         if(sMode == OPENING_START){
             interfaceMovie.close();
             suitBgmPlayer.stop();
+            effectWarningPlayer.stop();
             
             mainMovie.setAnchorPercent(0.5, 0.5);
             mainMovie.play();
@@ -155,6 +160,10 @@ void ofApp::update() {
                 }
             }
             interfaceMovie.update();
+            
+            if(ofGetElapsedTimeMillis() >= 17500.0){
+                effectWarningPlayer.play();
+            }
             break;
         case 2:
             mainMovie.update();
@@ -202,6 +211,8 @@ void ofApp::draw() {
     
 //    cam.draw(cam.getWidth(), 0, -cam.getWidth(), cam.getHeight());
     
+
+    
     switch(sMode){
         case 0:
             openingMovie.draw(0, 0);
@@ -217,6 +228,12 @@ void ofApp::draw() {
             
             ofPopMatrix();
             ofPopStyle();
+            
+            shader.begin();
+            shader.setUniform3f("chromaKeyColor", ofVec3f(0.0, 0.0, 0.0));
+            shader.setUniform1f("difference", 0.239);
+            interfaceMovie.draw(0,0);
+            shader.end();
             
             if(tracker.getHaarFound()){
                 
@@ -254,11 +271,6 @@ void ofApp::draw() {
                 ofPopMatrix();
                 ofPopStyle();
             }
-            shader.begin();
-            shader.setUniform3f("chromaKeyColor", ofVec3f(1.0, 0.0, 1.0));
-            shader.setUniform1f("threshold", 1.0);
-            interfaceMovie.draw(0,0);
-            shader.end();
             break;
             
         case 2:

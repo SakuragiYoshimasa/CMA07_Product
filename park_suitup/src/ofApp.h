@@ -59,6 +59,7 @@ class ofApp : public ofBaseApp {
         //for Sound
         ofSoundPlayer suitBgmPlayer;
         ofSoundPlayer mainBgmPlayer;
+        ofSoundPlayer effectWarningPlayer;
         int size_spect[NUM_SPECTRUM];
     
         //controlScene
@@ -86,4 +87,6 @@ class ofApp : public ofBaseApp {
         vector <particleScene> p;
         vector <ofPoint> attractPoints;
         vector <ofPoint> attractPointsWithMovement;
+    
+        float mouseR,mouseB;
 };
