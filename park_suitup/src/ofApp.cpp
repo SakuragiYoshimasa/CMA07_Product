@@ -77,12 +77,21 @@ void ofApp::setup() {
                      START_MOVIE_SPOT + 17800,   START_MOVIE_SPOT + 19110, START_MOVIE_SPOT + 20230,    START_MOVIE_SPOT + 22150,   START_MOVIE_SPOT + 26000,
                      START_MOVIE_SPOT + 28050,   START_MOVIE_SPOT + 31000, START_MOVIE_SPOT + 32230,    START_MOVIE_SPOT + 33180,   START_MOVIE_SPOT + 37130,
                      START_MOVIE_SPOT + 37530,   START_MOVIE_SPOT + 38030, START_MOVIE_SPOT + 38530,    START_MOVIE_SPOT + 39140,   START_MOVIE_SPOT + 42140,
-                     START_MOVIE_SPOT + 43010,   START_MOVIE_SPOT + 43150, START_MOVIE_SPOT + 44500,    START_MOVIE_SPOT + 45080,    START_MOVIE_SPOT + 47100,
-                     START_MOVIE_SPOT + 48180,   START_MOVIE_SPOT + 50040, START_MOVIE_SPOT + 51160,    START_MOVIE_SPOT + 55090,    START_MOVIE_SPOT + 56210,
-                     START_MOVIE_SPOT + 58220,
-                     START_MOVIE_SPOT + 59120,   START_MOVIE_SPOT + 61030, START_MOVIE_SPOT + 64210,    START_MOVIE_SPOT + 67020,   START_MOVIE_SPOT + 69110,
+                     START_MOVIE_SPOT + 43010,   START_MOVIE_SPOT + 43150, START_MOVIE_SPOT + 44500,    START_MOVIE_SPOT + 45080,   START_MOVIE_SPOT + 47100,
+                     START_MOVIE_SPOT + 48180,   START_MOVIE_SPOT + 50040, START_MOVIE_SPOT + 51160,    START_MOVIE_SPOT + 55090,   START_MOVIE_SPOT + 56020,
+                     START_MOVIE_SPOT + 56080,   START_MOVIE_SPOT + 56170, START_MOVIE_SPOT + 56550,    START_MOVIE_SPOT + 56550,   START_MOVIE_SPOT + 57190,
+                     START_MOVIE_SPOT + 57590,   START_MOVIE_SPOT + 58090, START_MOVIE_SPOT + 58220,    START_MOVIE_SPOT + 59120,   START_MOVIE_SPOT + 61030,
+                     START_MOVIE_SPOT + 61430,   START_MOVIE_SPOT + 61930, START_MOVIE_SPOT + 62330,    START_MOVIE_SPOT + 62530,   START_MOVIE_SPOT + 62730,
+                     START_MOVIE_SPOT + 63030,   START_MOVIE_SPOT + 64210, START_MOVIE_SPOT + 66050,    START_MOVIE_SPOT + 66350,   START_MOVIE_SPOT + 66650,
+                     START_MOVIE_SPOT + 67020,   START_MOVIE_SPOT + 67320, START_MOVIE_SPOT + 67620,    START_MOVIE_SPOT + 68160,   START_MOVIE_SPOT + 68360,
+                     START_MOVIE_SPOT + 68660,    START_MOVIE_SPOT + 69110,
                      START_MOVIE_SPOT + 72100,   START_MOVIE_SPOT + 73190, START_MOVIE_SPOT + 75000,    START_MOVIE_SPOT + 77000,   START_MOVIE_SPOT + 78160,
-                     START_MOVIE_SPOT + 79100,   START_MOVIE_SPOT + 79600, START_MOVIE_SPOT + 80100,
+                     START_MOVIE_SPOT + 78360,   START_MOVIE_SPOT + 78260, START_MOVIE_SPOT + 78560,    START_MOVIE_SPOT + 78860,   START_MOVIE_SPOT + 79060,
+        
+                     START_MOVIE_SPOT + 79100,   START_MOVIE_SPOT + 79400, START_MOVIE_SPOT + 79700,    START_MOVIE_SPOT + 79900,   START_MOVIE_SPOT + 80100,
+                    START_MOVIE_SPOT + 80300,    START_MOVIE_SPOT + 80600,
+        
+                    START_MOVIE_SPOT + 81000,   START_MOVIE_SPOT + 96080
                     };
     sceneTable =    {IN_SUIT_SCENE,             OPENING_START,              COMIC_FACE,                 NORMAL_MOVIE,               SOLID_BOX,
                      NORMAL_MOVIE,              COMIC_FACE,                 NORMAL_MOVIE,               DOT_MOVIE,                  NORMAL_MOVIE,
@@ -90,10 +99,18 @@ void ofApp::setup() {
                      DOT_MOVIE,                 NORMAL_MOVIE,               DOT_MOVIE,                  NORMAL_MOVIE,               PARTICLE_COLOR,
                      NORMAL_MOVIE,              DOT_MOVIE,                  NORMAL_MOVIE,               SOLID_BOX,                  NORMAL_MOVIE,
                      DOT_MOVIE,                 PARTICLE_COLOR,             NORMAL_MOVIE,               SOLID_BOX,                  NORMAL_MOVIE,
-                     SEPARATE_FACE,
-                     NORMAL_MOVIE,              COMIC_FACE,                 DOT_MOVIE,                  NORMAL_MOVIE,
-                     SEPARATE_FACE,             NORMAL_MOVIE,               DOT_MOVIE,                  SOLID_BOX,                  NORMAL_MOVIE,
-                     SEPARATE_FACE,             COMIC_FACE,                 SOLID_BOX,                  ENDING
+                     DOT_MOVIE,                 NORMAL_MOVIE,               DOT_MOVIE,                  NORMAL_MOVIE,               DOT_MOVIE,
+                     NORMAL_MOVIE,              DOT_MOVIE,                  SEPARATE_FACE,              NORMAL_MOVIE,               COMIC_FACE,
+                     SOLID_BOX,                 NORMAL_MOVIE,               DOT_MOVIE,                  NORMAL_MOVIE,               COMIC_FACE,
+                     DOT_MOVIE,                 NORMAL_MOVIE,               PARTICLE_COLOR,             SOLID_BOX,                  NORMAL_MOVIE,
+                     SEPARATE_FACE,             COMIC_FACE,                 NORMAL_MOVIE,               DOT_MOVIE,                  NORMAL_MOVIE,
+                     DOT_MOVIE,                 NORMAL_MOVIE,
+                     SEPARATE_FACE,             DOT_MOVIE,                  SOLID_BOX,                  NORMAL_MOVIE,              SEPARATE_FACE,
+                     COMIC_FACE,                DOT_MOVIE,                  PARTICLE_COLOR,             SOLID_BOX,                  NORMAL_MOVIE,
+                    DOT_MOVIE,                  COMIC_FACE,                 SOLID_BOX,                  NORMAL_MOVIE,               DOT_MOVIE,
+                    NORMAL_MOVIE,               DOT_MOVIE,
+        
+                    NORMAL_MOVIE,               ENDING
                     };
     numTimeTable  = 0;
     
@@ -336,9 +353,9 @@ void ofApp::draw() {
         case 4:
             ofBackground(255);
             separateface.draw(cam.getPixels(), tracker.getPosition(), (tracker.getImagePoint(48)+tracker.getImagePoint(54))/2,
-                              (tracker.getImagePoint(36)+tracker.getImagePoint(39))/2, (tracker.getImagePoint(42)+tracker.getImagePoint(45))/2);
+                              (tracker.getImagePoint(36)+tracker.getImagePoint(39))/2, (tracker.getImagePoint(42)+tracker.getImagePoint(45))/2,(numSceneTable%2));
             separateface.draw(cam.getPixels(), -tracker.getPosition(), (tracker.getImagePoint(48)+tracker.getImagePoint(54))/2,
-                              (tracker.getImagePoint(36)+tracker.getImagePoint(39))/2, (tracker.getImagePoint(42)+tracker.getImagePoint(45))/2);
+                              (tracker.getImagePoint(36)+tracker.getImagePoint(39))/2, (tracker.getImagePoint(42)+tracker.getImagePoint(45))/2, (numSceneTable%2));
             break;
             
         case 5:
@@ -349,12 +366,13 @@ void ofApp::draw() {
             }
             break;
         case 6:
-            solidbox.draw(tracker.getRotationMatrix().getRotate(), size_spect[3]);
+            solidbox.draw(tracker.getRotationMatrix().getRotate(), size_spect[4],(numSceneTable%2));
             break;
         case 7:
             comicface.draw(tracker);
             break;
         case 8:
+            ofBackground(0);
             mainMovie.draw(ofGetWidth()/2, ofGetHeight()/2);
             break;
         case 9:

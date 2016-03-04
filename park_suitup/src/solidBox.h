@@ -6,7 +6,7 @@
 class solidBox{
 public:
     void init();
-    void draw(ofQuaternion q, int size_spect);
+    void draw(ofQuaternion q, int size_spect, int mode);
     void update();
     
     ofVbo vbo;

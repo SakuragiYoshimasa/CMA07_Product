@@ -20,12 +20,22 @@ void solidBox::init(){
     vbo.setMesh(mesh, GL_STATIC_DRAW);
 }
 
-void solidBox::draw(ofQuaternion q, int size_spect){
-    ofBackground(0);
+void solidBox::draw(ofQuaternion q, int size_spect, int mode){
+
+    
     ofPushStyle();
     ofPushMatrix();
     ofNoFill();
     glEnable(GL_DEPTH_TEST);
+    
+    switch(mode){
+    case 0:
+        ofBackground(0);
+        break;
+    case 1:
+        ofBackground(255);
+        break;
+    }
 
 
     ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
@@ -37,27 +47,56 @@ void solidBox::draw(ofQuaternion q, int size_spect){
     ofPopMatrix();
     ofPopStyle();
     
-    ofPushStyle();
-    ofPushMatrix();
-    ofNoFill();
     
-    ofTranslate(100, 100);
-    ofScale(10 + (size_spect%20), 10 +  (size_spect%20), 10 + (size_spect%20));
-    vbo.draw(GL_QUAD_STRIP,0,24);
-    
-    ofPopMatrix();
-    ofPopStyle();
+    switch(mode){
+        case 0:
+            ofPushStyle();
+            ofPushMatrix();
+            ofNoFill();
+            
+            ofTranslate(100, 100);
+            ofScale(10 + (size_spect%20), 10 +  (size_spect%20), 10 + (size_spect%20));
+            vbo.draw(GL_QUAD_STRIP,0,24);
+            
+            ofPopMatrix();
+            ofPopStyle();
+            
+            ofPushStyle();
+            ofPushMatrix();
+            ofNoFill();
+            
+            ofTranslate(ofGetWidth() - 100, ofGetHeight() - 100);
+            ofScale(50 + (size_spect%20), 50 +  (size_spect%20), 50 + (size_spect%20));
+            vbo.draw(GL_QUAD_STRIP,0,24);
+            
+            ofPopMatrix();
+            ofPopStyle();
+            break;
+        case 1:
+            ofPushStyle();
+            ofPushMatrix();
+            ofNoFill();
+            
+            ofTranslate(100, ofGetHeight() - 100);
+            ofScale(10 + (size_spect%20), 10 +  (size_spect%20), 10 + (size_spect%20));
+            vbo.draw(GL_QUAD_STRIP,0,24);
+            
+            ofPopMatrix();
+            ofPopStyle();
+            
+            ofPushStyle();
+            ofPushMatrix();
+            ofNoFill();
+            
+            ofTranslate(ofGetWidth() - 100, 100);
+            ofScale(50 + (size_spect%20), 50 +  (size_spect%20), 50 + (size_spect%20));
+            vbo.draw(GL_QUAD_STRIP,0,24);
+            
+            ofPopMatrix();
+            ofPopStyle();
+            break;
+    }
 
-    ofPushStyle();
-    ofPushMatrix();
-    ofNoFill();
-    
-    ofTranslate(ofGetWidth() - 100, ofGetHeight() - 100);
-    ofScale(50 + (size_spect%20), 50 +  (size_spect%20), 50 + (size_spect%20));
-    vbo.draw(GL_QUAD_STRIP,0,24);
-    
-    ofPopMatrix();
-    ofPopStyle();
     glDisable(GL_DEPTH_TEST);
 
 }

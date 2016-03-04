@@ -1,6 +1,6 @@
 #include "separateFace.h"
 
-void separateFace::draw(ofPixels & cam, ofPoint facePoint, ofPoint mousePoint, ofPoint leftEyePoint, ofPoint rightEyePoint){
+void separateFace::draw(ofPixels & cam, ofPoint facePoint, ofPoint mousePoint, ofPoint leftEyePoint, ofPoint rightEyePoint, int mode){
     
     colorImg.allocate(ofGetWidth(),ofGetHeight());
     colorImg.setFromPixels(cam, ofGetWidth(), ofGetHeight());
@@ -8,8 +8,15 @@ void separateFace::draw(ofPixels & cam, ofPoint facePoint, ofPoint mousePoint, o
     ofPushStyle();
     ofPushMatrix();
     
+    switch (mode) {
+        case 0:
+            ofRotate( 180, 0, 0, 1 );
+            break;
+        case 1:
+            break;
+    }
     ofTranslate(facePoint/2);
-    ofRotate( 180, 0, 0, 1 );
+
 
     //draw leftEye
     colorImg.setROI(leftEyePoint.x-50, leftEyePoint.y-50, 100, 100);
